@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prestamos</title>
+</head>
+<body>
+    <h1>Gestión de Préstamos</h1>
+
+    <form id="registroPrestamo">
+        <div>
+            <label for="montoPrestamo">Monto del Préstamo:</label>
+            <input type="number" id="montoPrestamo" required>
+        </div>
+
+        <div>
+            <label for="interesPrestamo">Interés:</label>
+            <input type="number" id="interesPrestamo" required>
+        </div>
+
+        <div>
+            <label for="plazoPrestamo">Plazo (cantidad de pagos):</label>
+            <input type="number" id="plazoPrestamo" required>
+        </div>
+
+                <div>
+            <label for="fechaRegistro">fecha</label>
+            <input type="date" id="fechaRegistro">
+        </div>
+
+        <button type="submit" id="btnRegistrarPrestamo">Registrar Préstamo</button>
+    </form>
+
+
+    <h2>Clientes y sus Préstamos</h2>
+    <ul id="listaClientes"></ul>
+
+    <script>
+    // 1. Obtener clienteId desde la URL
+    const params = new URLSearchParams(window.location.search);
+    const clienteId = params.get("clienteId");
+
+    if (!clienteId) {
+        alert("Cliente no encontrado");
+    }
+
+    // cargar cliente con sus prestamos
+    function cargarClienteConPrestamos() {
+    fetch(`http://localhost:8080/clientes/${clienteId}`)
+        .then(res => res.json())
+        .then(cliente => {
+            const lista = document.getElementById("listaClientes");
+            lista.innerHTML = "";
+
+            const liCliente = document.createElement("li");
+            liCliente.innerHTML = `<strong>${cliente.nombre}</strong>`;
+
+            const ulPrestamos = document.createElement("ul");
+
+
+            const prestamosActivos = cliente.prestamos ? cliente.prestamos.filter(prestamo => !prestamo.estado): [];
+
+
+            if (prestamosActivos.length > 0) {
+                prestamosActivos.forEach(prestamo => {
+
+                    const liPrestamo = document.createElement("li");
+                    liPrestamo.textContent =
+                        `Monto: ${prestamo.monto}, Total a Pagar: ${prestamo.totalAPagar}, Interés: ${prestamo.interes}, Plazo: ${prestamo.plazo},  Fecha de Registro: ${formatoFecha(prestamo.fechaRegistro)}`;
+
+                    agregarFormularioPago(prestamo, liPrestamo);
+                    mostrarPagos(prestamo, liPrestamo);
+
+                    ulPrestamos.appendChild(liPrestamo);
+                });
+            } else {
+                ulPrestamos.innerHTML = "<li>Sin préstamos</li>";
+            }
+
+            liCliente.appendChild(ulPrestamos);
+            lista.appendChild(liCliente);
+        })
+        .catch(err => console.error("Error cargando cliente:", err));
+}
+
+    // formulario para agregar pago a un prestamo
+    function agregarFormularioPago(prestamo, liPrestamo) {
+        const inputPago = document.createElement("input");
+        inputPago.type = "number";
+        inputPago.placeholder = "Monto del pago";
+
+        const botonPago = document.createElement("button");
+        botonPago.textContent = "Registrar pago";
+
+        liPrestamo.appendChild(document.createElement("br"));
+        liPrestamo.appendChild(inputPago);
+        liPrestamo.appendChild(botonPago);
+
+        botonPago.onclick = function () {
+            const montoPago = parseFloat(inputPago.value);
+
+            if (isNaN(montoPago) || montoPago <= 0) {
+                alert("Ingrese un monto válido");
+                return;
+            }
+
+            if (montoPago > prestamo.totalAPagar) {
+                alert("El monto del pago no puede exceder el total a pagar del préstamo");
+                return;
+            }
+
+            const pagoData = {
+                monto: montoPago
+            };
+
+            fetch(`http://localhost:8080/pagos/prestamo/${prestamo.id}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(pagoData)
+            })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error("Error al guardar el pago");
+                }
+                return res.json();
+            })
+            .then(() => {
+                alert("✅ Pago registrado");
+                cargarClienteConPrestamos();
+            })
+            .catch(err => {
+                console.error(err);
+                alert("❌ Error al registrar el pago");
+            });
+        };
+    }
+
+    // se muestran los pagos realizados para un prestamo
+    function mostrarPagos(prestamo, liPrestamo) {
+
+    let tituloPagos = document.createElement("h4");
+    tituloPagos.textContent = "Pagos Realizados:";
+    liPrestamo.appendChild(tituloPagos);
+
+    let montoEsperado = prestamo.totalAPagar / prestamo.plazo;
+    let infoEsperado = document.createElement("p");
+    infoEsperado.textContent = `Monto esperado por pago: ${montoEsperado.toFixed(2)}`;
+    liPrestamo.appendChild(infoEsperado);
+
+    fetch(`http://localhost:8080/pagos/prestamo/${prestamo.id}`)
+        .then(res => res.json())
+        .then(pagos => {
+
+            const ulPagos = document.createElement("ol");
+            ulPagos.classList.add("lista-pagos");
+
+            let totalPagado = 0;
+
+            if (pagos.length > 0) {
+                pagos.forEach(pago => {
+                    totalPagado += pago.monto;
+
+                    const liPago = document.createElement("li");
+                    liPago.textContent =
+                        `Monto del Pago: ${pago.monto}, Fecha: ${formatoFecha(new Date())}`;
+                    ulPagos.appendChild(liPago);
+                });
+            } else {
+                ulPagos.innerHTML = "<li>Sin pagos registrados</li>";
+            }
+
+            liPrestamo.appendChild(ulPagos);
+
+            let interesPorRetraso = document.createElement("input");
+            interesPorRetraso.type = "number";
+            interesPorRetraso.placeholder = "Interés por retraso";
+            liPrestamo.appendChild(interesPorRetraso);
+
+            let botonInteres = document.createElement("button");
+            botonInteres.textContent = "Agregar interés por prestamo";
+            liPrestamo.appendChild(botonInteres);
+
+        botonInteres.onclick = function () {
+            const interesRetraso = parseFloat(interesPorRetraso.value);
+
+            if (isNaN(interesRetraso) || interesRetraso <= 0) {
+                alert("Ingrese un interés válido");
+                return;
+            }
+
+            fetch(`http://localhost:8080/prestamos/${prestamo.id}/interes`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    monto: interesRetraso
+                })
+            })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error("Error al actualizar el préstamo");
+                }
+                return res.json();
+            })
+            .then(() => {
+                alert("✅ Interés por retraso agregado");
+                cargarClienteConPrestamos();
+            })
+            .catch(err => {
+                console.error(err);
+                alert("❌ Error al agregar el interés por retraso");
+            });
+        };
+
+            // mostrar total pagado y saldo restante
+            let saldoRestante = prestamo.saldoRestante || (prestamo.totalAPagar - totalPagado);
+            const saldoInfo = document.createElement("p");
+            saldoInfo.textContent = `Total Pagado: ${totalPagado} | Saldo Restante: ${saldoRestante}`;
+
+            liPrestamo.appendChild(saldoInfo);
+
+
+            // boton para cerrar prestamo si el saldo es 0
+            let botoncerrarPrestamo = document.createElement("button");
+            botoncerrarPrestamo.textContent = "Cerrar Préstamo";
+            liPrestamo.appendChild(botoncerrarPrestamo);
+
+            botoncerrarPrestamo.onclick = function () {
+                if (confirm("¿Está seguro de cerrar este préstamo? Esta acción no se puede deshacer.")) {
+                    fetch(`http://localhost:8080/prestamos/${prestamo.id}/cerrar`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    })
+                    .then(res => {
+                        if (!res.ok) {
+                            throw new Error("Error al cerrar el préstamo");
+                        }
+                        return res.json();
+                    })
+                    .then(() => {
+                        alert("✅ Préstamo cerrado correctamente");
+                        cargarClienteConPrestamos();
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert("❌ Error al cerrar el préstamo");
+                    });
+                }
+            };
+
+
+            // Crear boton para eliminar prestamo
+            let botonEliminarPrestamo = document.createElement("button");
+            botonEliminarPrestamo.textContent = "Eliminar Préstamo";
+            liPrestamo.appendChild(botonEliminarPrestamo);
+
+            botonEliminarPrestamo.onclick = function () {
+                if (confirm("¿Está seguro de eliminar este préstamo? Esta acción no se puede deshacer.")) {
+                    fetch(`http://localhost:8080/prestamos/${prestamo.id}/`, {
+                        method: "DELETE"
+                    })
+                    .then(res => {
+                        if (!res.ok) {
+                            throw new Error("Error al eliminar el préstamo");
+                        }
+                        alert("✅ Préstamo eliminado correctamente");
+                        cargarClienteConPrestamos();
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert("❌ Error al eliminar el préstamo");
+                    });
+                }
+            };
+        })
+        .catch(err => console.error("Error cargando pagos:", err));
+}
+
+
+
+    function formatoFecha(fecha) {
+
+    if (fecha instanceof Date) {
+        const dia = String(fecha.getDate()).padStart(2, '0');
+        const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+        const año = fecha.getFullYear();
+        return `${dia}/${mes}/${año}`;
+    }
+
+    if (typeof fecha === "string" && fecha.includes("-")) {
+        const [año, mes, dia] = fecha.split("-");
+        return `${dia}/${mes}/${año}`;
+    }
+
+    return "Fecha no disponible";
+    }
+
+
+
+    // 3. Ejecutar al cargar la página
+    cargarClienteConPrestamos();
+
+    // 4. Registrar préstamo PARA ESTE CLIENTE
+    document.getElementById("registroPrestamo").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        let montoPrestamo = document.getElementById("montoPrestamo").value.trim();
+        let interesPrestamo = document.getElementById("interesPrestamo").value.trim();
+        let plazoPrestamo = document.getElementById("plazoPrestamo").value.trim();
+        let fechaRegistro = document.getElementById("fechaRegistro").value.trim();
+        fechaRegistro = fechaRegistro ? fechaRegistro : new Date().toISOString().split('T')[0];
+        let totalAPagar = parseFloat(montoPrestamo) + (parseFloat(interesPrestamo) * (parseFloat(montoPrestamo) / parseFloat(1000)));
+
+        let prestamoData = {
+            monto: parseFloat(montoPrestamo),
+            interes: parseFloat(interesPrestamo),
+            plazo: parseInt(plazoPrestamo),
+            fechaRegistro: fechaRegistro,
+            estado: false,
+            totalAPagar: totalAPagar
+
+        };
+
+        fetch(`http://localhost:8080/prestamos/cliente/${clienteId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(prestamoData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error al guardar el préstamo");
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert("✅ Préstamo registrado correctamente");
+            cargarClienteConPrestamos();
+            document.getElementById("registroPrestamo").reset();
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("❌ Error al registrar el préstamo");
+        });
+    });
+</script>
+</body>
+
+</html>

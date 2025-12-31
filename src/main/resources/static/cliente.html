@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Cliente</title>
+</head>
+<body>
+
+    <h1>Registro de Cliente</h1>
+
+    <form id="registroCliente">
+        <div>
+            <label for="nombreCliente">Nombre:</label>
+            <input type="text" id="nombreCliente" required>
+        </div>
+
+        <div>
+            <label for="telefonoCliente">Teléfono:</label>
+            <input type="text" id="telefonoCliente" required>
+        </div>
+
+        <div>
+            <label for="direccionCliente">Dirección:</label>
+            <input type="text" id="direccionCliente" required>
+        </div>
+
+
+
+        <button type="submit">Registrar</button>
+    </form>
+
+
+    <h2>Clientes Registrados</h2>
+        <ul id="listaClientes"></ul>
+
+        <script>
+        // 1. Esta función RELLENA la lista (La definimos)
+        function cargarClientes() {
+            fetch("http://localhost:8080/clientes")
+                .then(response => response.json())
+                .then(clientes => {
+                    const lista = document.getElementById("listaClientes");
+                    lista.innerHTML = ""; // Limpia para no duplicar
+                    clientes.forEach(cliente => {
+                        const li = document.createElement("li");
+                        li.textContent = `ID: ${cliente.id}, Nombre: ${cliente.nombre}, Tel: ${cliente.telefono}, Dirección: ${cliente.direccion}`;
+
+                        const btnPrestamo = document.createElement("button");
+                        btnPrestamo.onclick = function() {
+                            window.location.href = `prestamo.html?clienteId=${cliente.id}`;
+                        };
+                        btnPrestamo.textContent = "Crear Préstamos";
+
+                        li.appendChild(btnPrestamo);
+                        lista.appendChild(li);
+
+                        const btnEliminarCliente = document.createElement("button");
+                        btnEliminarCliente.textContent = "Eliminar Cliente";
+                        li.appendChild(btnEliminarCliente);
+                        btnEliminarCliente.onclick = function() {
+                            if (confirm("¿Estás seguro de que quieres eliminar este cliente?")) {
+                                fetch(`http://localhost:8080/clientes/${cliente.id}`, {
+                                    method: "DELETE"
+                                })
+                                .then(response => {
+                                    if (response.ok) {
+                                        cargarClientes(); // Actualiza la lista después de eliminar
+                                    } else {
+                                        alert("Error al eliminar el cliente.");
+                                    }
+                                })
+                                .catch(error => console.error("Error eliminando:", error));
+                            }
+                        };
+                    });
+                })
+                .catch(error => console.error("Error cargando:", error));
+        }
+
+        // 2. Ejecutar la función NADA MÁS CARGAR la página
+        cargarClientes(); 
+
+        // 3. Manejo del formulario (POST)
+        document.getElementById("registroCliente").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            let nombreCliente = document.getElementById("nombreCliente").value.trim();
+            let telefonoCliente = document.getElementById("telefonoCliente").value.trim();
+            let direccionCliente = document.getElementById("direccionCliente").value.trim();
+
+                    // 1. Campos vacíos
+        if (nombreCliente === "" || telefonoCliente === "" || direccionCliente === "") {
+            alert("Por favor, complete todos los campos requeridos.");
+            return;
+        }
+
+        // 2. Nombre: solo letras y espacios
+        const nombreRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+        if (!nombreRegex.test(nombreCliente)) {
+            alert("El nombre no debe contener números ni caracteres especiales.");
+            return;
+        }
+
+        // 3. Teléfono: solo números y 10 dígitos
+        const telefonoRegex = /^\d{10}$/;
+        if (!telefonoRegex.test(telefonoCliente)) {
+            alert("El teléfono debe contener solo números y tener 10 dígitos.");
+            return;
+        }
+
+        // 4. Dirección: mínimo 5 caracteres
+        if (direccionCliente.length < 5) {
+            alert("La dirección debe contener al menos 5 caracteres.");
+            return;
+        }
+
+            const cliente = {
+                nombre: nombreCliente,
+                telefono: telefonoCliente,
+                direccion: direccionCliente
+            };
+
+            fetch("http://localhost:8080/clientes", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(cliente)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Cliente registrado con ID: " + data.id);
+                document.getElementById("registroCliente").reset(); // Limpia los cuadritos de texto
+                cargarClientes(); // <--- Aquí la llamamos para actualizar la lista sin refrescar
+            })
+            .catch(error => {
+                alert("Error al registrar");
+                console.error(error);
+            });
+    });
+</script>
+
+</body>
+</html>
