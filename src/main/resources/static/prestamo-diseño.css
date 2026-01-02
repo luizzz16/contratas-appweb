@@ -1,0 +1,227 @@
+/* ===============================
+   CONFIGURACIÓN GENERAL
+================================ */
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 16px;
+    background-color: #ffffff;
+    color: #000;
+}
+
+/* ===============================
+   TÍTULOS
+================================ */
+h1, h2, h3 {
+    text-align: center;
+    position: relative;
+    padding-bottom: 10px;
+    margin-bottom: 28px;
+    font-weight: bold;
+    color: #000;
+}
+
+h1 { font-size: 26px; }
+h2 { font-size: 22px; margin-top: 40px; }
+h3 { font-size: 18px; }
+
+/* Línea decorativa */
+h1::after,
+h2::after,
+h3::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 60px;
+    height: 4px;
+    border-radius: 4px;
+    background-color: #a2d2ff;
+}
+
+/* ===============================
+   CONTENEDORES PRINCIPALES
+================================ */
+section, form {
+    background-color: #ffffff;
+    padding: 24px;
+    margin-bottom: 30px;
+    border-radius: 18px;
+    border: 1px solid #e6e6e6;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+
+/* Separador */
+hr {
+    border: none;
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 25px 0;
+}
+
+/* ===============================
+   FORMULARIOS
+================================ */
+form div {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+input, select {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 12px;
+    border: 2px solid #a2d2ff;
+    background-color: #ffffff;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #6fa8dc;
+}
+
+/* ===============================
+   LISTA DE PRÉSTAMOS (CARDS)
+================================ */
+ul {
+    list-style: none;
+    padding: 0;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+li {
+    background-color: #ffffff;
+    padding: 20px;
+    margin-bottom: 22px;
+    border-radius: 18px;
+    border: 1px solid #e6e6e6;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.08);
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+/* Sublistas (pagos) */
+li ul li {
+    margin-top: 12px;
+    padding: 14px;
+    background-color: #ffffff;
+    border: 1px solid #939393;
+    box-shadow: none;
+}
+
+/* ===============================
+   BOTONES (MISMA CONFIGURACIÓN)
+================================ */
+button {
+    padding: 12px 18px;
+    font-size: 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-right: 8px;
+
+    transition: background-color 0.25s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+/* ===== CERRAR PRÉSTAMO (VERDE) ===== */
+button.cerrar {
+    background-color: rgba(204, 213, 174, 0.55);
+    color: #2f4f2f;
+    border: 2px solid #a3b18a;
+    font-weight: bold;
+}
+
+button.cerrar:hover {
+    background-color: rgba(204, 213, 174, 0.85);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+}
+
+/* ===== ELIMINAR PRÉSTAMO (ROJO) ===== */
+button.eliminar {
+    background-color: rgba(255, 175, 204, 0.55);
+    color: #9d174d;
+    border: 2px solid #f28482;
+    font-weight: bold;
+}
+
+button.eliminar:hover {
+    background-color: rgba(255, 175, 204, 0.85);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+}
+
+/* ===== RENOVAR PRÉSTAMO (AZUL) ===== */
+button.renovar {
+    background-color: rgba(162, 210, 255, 0.55);
+    color: #1d4ed8;
+    border: 2px solid #6fa8dc;
+    font-weight: bold;
+}
+
+button.renovar:hover {
+    background-color: rgba(162, 210, 255, 0.85);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+}
+
+/* ===============================
+   ALERTAS
+================================ */
+.alerta {
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    background-color: #f1f5f9;
+    border: 1px solid #dbeafe;
+    font-weight: bold;
+}
+
+/* ===============================
+   ACCESIBILIDAD
+================================ */
+button, input, select {
+    min-height: 44px;
+}
+
+small {
+    font-size: 14px;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 600px) {
+
+    body {
+        padding: 12px;
+    }
+
+    section, form {
+        padding: 18px;
+    }
+
+    h1, h2, h3 {
+        font-size: 20px;
+    }
+
+    button {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}

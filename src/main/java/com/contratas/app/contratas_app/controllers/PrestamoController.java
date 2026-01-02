@@ -58,4 +58,19 @@ public class PrestamoController {
         prestamoService.eliminarPrestamo(prestamoId);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}/renovar")
+    public ResponseEntity<Prestamo> renovar(@PathVariable Long id, @RequestBody Prestamo dto ) {
+        return ResponseEntity.ok(
+            prestamoService.renovarPrestamo(
+                id,
+                dto.getMonto(),
+                dto.getInteres(),
+                dto.getPlazo()
+            )
+        );
+    }
+
+
+
 }

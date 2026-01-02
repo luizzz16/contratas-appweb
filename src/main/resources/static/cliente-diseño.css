@@ -1,0 +1,194 @@
+/* ===============================
+   CONFIGURACIÓN GENERAL
+================================ */
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 16px;
+    background-color: #ffffff;
+    color: #000;
+}
+
+/* ===============================
+   TÍTULOS
+================================ */
+h1, h2 {
+    text-align: center;
+    position: relative;
+    padding-bottom: 10px;
+    margin-bottom: 28px;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 26px;
+}
+
+h2 {
+    font-size: 22px;
+    margin-top: 40px;
+}
+
+/* Línea decorativa */
+h1::after,
+h2::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 60px;
+    height: 4px;
+    border-radius: 4px;
+    background-color: #a2d2ff;
+}
+
+/* ===============================
+   FORMULARIO REGISTRO CLIENTE
+================================ */
+#registroCliente {
+    background-color: #ffffff;
+    padding: 22px;
+    border-radius: 18px;
+    max-width: 500px;
+    margin: 0 auto 30px auto;
+    border: 1px solid #e6e6e6;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+
+#registroCliente div {
+    margin-bottom: 18px;
+}
+
+#registroCliente label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+#registroCliente input {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 12px;
+    border: 2px solid #a2d2ff;
+    background-color: #ffffff;
+}
+
+/* Botón registrar cliente (principal) */
+#registroCliente button {
+    width: 70%;
+    display: block;
+    margin: 10px auto 0 auto;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 14px;
+    cursor: pointer;
+
+    background-color: rgba(162, 210, 255, 0.85);
+    color: #000;
+    border: 2px solid #6fa8dc;
+
+    transition: background-color 0.25s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+#registroCliente button:hover {
+    background-color: rgba(162, 210, 255, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+#registroCliente button:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+}
+
+/* ===============================
+   LISTA DE CLIENTES
+================================ */
+#listaClientes {
+    list-style: none;
+    padding: 0;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Card cliente */
+#listaClientes li {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 18px;
+    margin-bottom: 22px;
+    border: 1px solid #e6e6e6;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.08);
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+/* Separador info / acciones */
+#listaClientes li::after {
+    content: "";
+    display: block;
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 18px 0;
+}
+
+/* ===============================
+   BOTONES DE CLIENTE
+================================ */
+#listaClientes button {
+    width: 70%;
+    display: block;
+    margin: 10px auto;
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 12px;
+    cursor: pointer;
+
+    transition: background-color 0.25s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+/* Crear préstamo (AZUL) */
+#listaClientes button:first-of-type {
+    background-color: rgba(162, 210, 255, 0.45);
+    color: #1d4ed8;
+    border: 2px solid #6fa8dc;
+}
+
+#listaClientes button:first-of-type:hover {
+    background-color: rgba(162, 210, 255, 0.75);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+}
+
+/* Eliminar cliente (ROJO) */
+#listaClientes button:last-of-type {
+    background-color: rgba(255, 175, 204, 0.45);
+    color: #9d174d;
+    border: 2px solid #f28482;
+}
+
+#listaClientes button:last-of-type:hover {
+    background-color: rgba(255, 175, 204, 0.75);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (min-width: 768px) {
+    body {
+        padding: 30px;
+    }
+}

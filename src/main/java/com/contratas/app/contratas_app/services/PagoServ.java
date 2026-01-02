@@ -26,9 +26,7 @@ public class PagoServ {
     }
 
     public Pago guardarPago(@PathVariable Long prestamoId, @RequestBody Pago pago) {
-        Prestamo prestamo = prestamoRepo.findById(prestamoId)
-        .orElseThrow(() -> new RuntimeException("Préstamo no encontrado"));
-
+        Prestamo prestamo = prestamoRepo.findById(prestamoId).orElseThrow(() -> new RuntimeException("Préstamo no encontrado"));
         pago.setPrestamo(prestamo);
         return pagoRepo.save(pago);
     }
@@ -42,10 +40,8 @@ public class PagoServ {
     @Transactional
     public Pago registrarPago(Long prestamoId, double monto) {
 
-        Prestamo prestamo = prestamoRepo.findById(prestamoId)
-            .orElseThrow(() -> new RuntimeException("Préstamo no encontrado"));
+        Prestamo prestamo = prestamoRepo.findById(prestamoId).orElseThrow(() -> new RuntimeException("Préstamo no encontrado"));
 
-        // ✅ Inicializar saldo si está null
         if (prestamo.getSaldoRestante() == null) {
             prestamo.setSaldoRestante(prestamo.getTotalAPagar());
         }
@@ -61,9 +57,7 @@ public class PagoServ {
 
         pagoRepo.save(pago);
 
-        prestamo.setSaldoRestante(
-            prestamo.getSaldoRestante() - monto
-        );
+        prestamo.setSaldoRestante(prestamo.getSaldoRestante() - monto);
 
         prestamoRepo.save(prestamo);
 

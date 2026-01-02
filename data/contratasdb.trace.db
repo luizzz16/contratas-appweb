@@ -238,3 +238,27 @@ Syntax error in SQL statement "Select * from Cliente\000d\000a[*]Select * from P
 Select * from Cliente
 Select * from Pago
 Select * from Prestamo [42000-224]
+2025-12-31 14:09:27.901420-06:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM CLIENTE PAGO [*]PRESTAMO"
+Syntax error in SQL statement "SELECT * FROM CLIENTE PAGO [*]PRESTAMO"; SQL statement:
+SELECT * FROM CLIENTE PAGO PRESTAMO [42000-224]
+2025-12-31 14:09:32.643343-06:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM CLIENTE PAGO [*]PRESTAMO"
+Syntax error in SQL statement "SELECT * FROM CLIENTE PAGO [*]PRESTAMO"; SQL statement:
+SELECT * FROM CLIENTE PAGO PRESTAMO [42000-224]
+2025-12-31 14:09:33.765162-06:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM CLIENTE PAGO [*]PRESTAMO"
+Syntax error in SQL statement "SELECT * FROM CLIENTE PAGO [*]PRESTAMO"; SQL statement:
+SELECT * FROM CLIENTE PAGO PRESTAMO [42000-224]
+2025-12-31 14:09:34.158089-06:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM CLIENTE PAGO [*]PRESTAMO"
+Syntax error in SQL statement "SELECT * FROM CLIENTE PAGO [*]PRESTAMO"; SQL statement:
+SELECT * FROM CLIENTE PAGO PRESTAMO [42000-224]
+2025-12-31 16:07:56.009718-06:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * [*]FROMPRESTAMO"
+Syntax error in SQL statement "SELECT * [*]FROMPRESTAMO"; SQL statement:
+SELECT * FROMPRESTAMO [42000-224]
+2025-12-31 16:07:56.020158-06:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * [*]FROMPAGO"
+Syntax error in SQL statement "SELECT * [*]FROMPAGO"; SQL statement:
+SELECT * FROMPAGO [42000-224]

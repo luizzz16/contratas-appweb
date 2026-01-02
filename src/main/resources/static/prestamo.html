@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prestamos</title>
+    <link rel="stylesheet" href="prestamo-diseño.css">
+
 </head>
 <body>
     <h1>Gestión de Préstamos</h1>
@@ -36,8 +38,27 @@
     <h2>Clientes y sus Préstamos</h2>
     <ul id="listaClientes"></ul>
 
+    <div id="modalRenovar" style="display:none;" class="modal">
+        <div class="modal-content">
+            <h3>Renovar Préstamo</h3>
+
+            <label>Monto solicitado</label>
+            <input type="number" id="nuevoMonto">
+
+            <label>Interés</label>
+            <input type="number" id="nuevoInteres">
+
+            <label>Plazo</label>
+            <input type="number" id="nuevoPlazo">
+
+            <button id="confirmarRenovacion">Renovar</button>
+            <button onclick="cerrarModal()">Cancelar</button>
+        </div>
+    </div>
+
     <script>
-    // 1. Obtener clienteId desde la URL
+
+    // Obtener clienteId desde la URL para cargar sus préstamos
     const params = new URLSearchParams(window.location.search);
     const clienteId = params.get("clienteId");
 
@@ -58,9 +79,7 @@
 
             const ulPrestamos = document.createElement("ul");
 
-
             const prestamosActivos = cliente.prestamos ? cliente.prestamos.filter(prestamo => !prestamo.estado): [];
-
 
             if (prestamosActivos.length > 0) {
                 prestamosActivos.forEach(prestamo => {
@@ -77,7 +96,6 @@
             } else {
                 ulPrestamos.innerHTML = "<li>Sin préstamos</li>";
             }
-
             liCliente.appendChild(ulPrestamos);
             lista.appendChild(liCliente);
         })
@@ -174,6 +192,7 @@
 
             liPrestamo.appendChild(ulPagos);
 
+            // agregar interes por retraso al prestamo
             let interesPorRetraso = document.createElement("input");
             interesPorRetraso.type = "number";
             interesPorRetraso.placeholder = "Interés por retraso";
@@ -183,38 +202,38 @@
             botonInteres.textContent = "Agregar interés por prestamo";
             liPrestamo.appendChild(botonInteres);
 
-        botonInteres.onclick = function () {
-            const interesRetraso = parseFloat(interesPorRetraso.value);
+            botonInteres.onclick = function () {
+                const interesRetraso = parseFloat(interesPorRetraso.value);
 
-            if (isNaN(interesRetraso) || interesRetraso <= 0) {
-                alert("Ingrese un interés válido");
-                return;
-            }
-
-            fetch(`http://localhost:8080/prestamos/${prestamo.id}/interes`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    monto: interesRetraso
-                })
-            })
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error("Error al actualizar el préstamo");
+                if (isNaN(interesRetraso) || interesRetraso <= 0) {
+                    alert("Ingrese un interés válido");
+                    return;
                 }
-                return res.json();
-            })
-            .then(() => {
-                alert("✅ Interés por retraso agregado");
-                cargarClienteConPrestamos();
-            })
-            .catch(err => {
-                console.error(err);
-                alert("❌ Error al agregar el interés por retraso");
-            });
-        };
+
+                fetch(`http://localhost:8080/prestamos/${prestamo.id}/interes`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        monto: interesRetraso
+                    })
+                })
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error("Error al actualizar el préstamo");
+                    }
+                    return res.json();
+                })
+                .then(() => {
+                    alert("✅ Interés por retraso agregado");
+                    cargarClienteConPrestamos();
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("❌ Error al agregar el interés por retraso");
+                });
+            };
 
             // mostrar total pagado y saldo restante
             let saldoRestante = prestamo.saldoRestante || (prestamo.totalAPagar - totalPagado);
@@ -227,6 +246,7 @@
             // boton para cerrar prestamo si el saldo es 0
             let botoncerrarPrestamo = document.createElement("button");
             botoncerrarPrestamo.textContent = "Cerrar Préstamo";
+            botoncerrarPrestamo.classList.add("cerrar");
             liPrestamo.appendChild(botoncerrarPrestamo);
 
             botoncerrarPrestamo.onclick = function () {
@@ -258,6 +278,7 @@
             // Crear boton para eliminar prestamo
             let botonEliminarPrestamo = document.createElement("button");
             botonEliminarPrestamo.textContent = "Eliminar Préstamo";
+            botonEliminarPrestamo.classList.add("eliminar");
             liPrestamo.appendChild(botonEliminarPrestamo);
 
             botonEliminarPrestamo.onclick = function () {
@@ -278,14 +299,54 @@
                     });
                 }
             };
+
+            // Renovar prestamo, se trae un modal para ingresar nuevos datos y se llama al endpoint
+            let botonRenovarPrestamo = document.createElement("button");
+            botonRenovarPrestamo.textContent = "Renovar Préstamo";
+            botonRenovarPrestamo.classList.add("renovar");
+            liPrestamo.appendChild(botonRenovarPrestamo);
+
+            botonRenovarPrestamo.onclick = function () {
+            document.getElementById("modalRenovar").style.display = "block";
+
+            document.getElementById("confirmarRenovacion").onclick = function () {
+
+                const nuevoMonto = parseFloat(document.getElementById("nuevoMonto").value);
+                const nuevoInteres = parseFloat(document.getElementById("nuevoInteres").value);
+                const nuevoPlazo = parseInt(document.getElementById("nuevoPlazo").value);
+
+                fetch(`http://localhost:8080/prestamos/${prestamo.id}/renovar`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        monto: nuevoMonto,
+                        interes: nuevoInteres,
+                        plazo: nuevoPlazo
+                    })
+                })
+                .then(res => {
+                    if (!res.ok) throw new Error();
+                    return res.json();
+                })
+                .then(() => {
+                    alert("✅ Préstamo renovado correctamente");
+                    cerrarModal();
+                    cargarClienteConPrestamos();
+                })
+                .catch(() => alert("❌ Error al renovar el préstamo"));
+            };
+        };
         })
         .catch(err => console.error("Error cargando pagos:", err));
-}
+    }
 
 
+    function cerrarModal() {
+        document.getElementById("modalRenovar").style.display = "none";
+    }
 
+    // formato de fecha DD/MM/AAAA
     function formatoFecha(fecha) {
-
     if (fecha instanceof Date) {
         const dia = String(fecha.getDate()).padStart(2, '0');
         const mes = String(fecha.getMonth() + 1).padStart(2, '0');
@@ -303,10 +364,10 @@
 
 
 
-    // 3. Ejecutar al cargar la página
+    //Ejecutar al cargar la página
     cargarClienteConPrestamos();
 
-    // 4. Registrar préstamo PARA ESTE CLIENTE
+    //Registrar préstamo PARA ESTE CLIENTE
     document.getElementById("registroPrestamo").addEventListener("submit", function (e) {
         e.preventDefault();
 
@@ -323,7 +384,8 @@
             plazo: parseInt(plazoPrestamo),
             fechaRegistro: fechaRegistro,
             estado: false,
-            totalAPagar: totalAPagar
+            totalAPagar: totalAPagar,
+            saldoRestante: totalAPagar
 
         };
 
