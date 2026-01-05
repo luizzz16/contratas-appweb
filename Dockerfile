@@ -1,14 +1,19 @@
-# Imagen base con Java
-FROM eclipse-temurin:17-jdk-alpine
+# ===== ETAPA 1: build =====
+FROM eclipse-temurin:21-jdk AS build
 
-# Directorio de trabajo
 WORKDIR /app
 
-# Copiar el jar generado
-COPY target/*.jar app.jar
+COPY . .
 
-# Exponer el puerto (Render usa PORT)
+RUN ./mvnw clean package -DskipTests
+
+# ===== ETAPA 2: runtime =====
+FROM eclipse-temurin:21-jre
+
+WORKDIR /app
+
+COPY --from=build /app/target/*.jar app.jar
+
 EXPOSE 8080
 
-# Ejecutar la app
-ENTRYPOINT ["java","-jar","/app/app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
