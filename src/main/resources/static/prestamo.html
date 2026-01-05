@@ -57,6 +57,7 @@
     </div>
 
     <script>
+    let prestamoActual = null;
 
     // Obtener clienteId desde la URL para cargar sus préstamos
     const params = new URLSearchParams(window.location.search);
@@ -307,15 +308,27 @@
             liPrestamo.appendChild(botonRenovarPrestamo);
 
             botonRenovarPrestamo.onclick = function () {
-            document.getElementById("modalRenovar").style.display = "block";
+                prestamoActual = prestamo.id;
+                document.getElementById("modalRenovar").style.display = "flex";
+            };
 
             document.getElementById("confirmarRenovacion").onclick = function () {
+
+                if (!prestamoActual) {
+                    alert("No hay préstamo seleccionado");
+                    return;
+                }
 
                 const nuevoMonto = parseFloat(document.getElementById("nuevoMonto").value);
                 const nuevoInteres = parseFloat(document.getElementById("nuevoInteres").value);
                 const nuevoPlazo = parseInt(document.getElementById("nuevoPlazo").value);
 
-                fetch(`http://localhost:8080/prestamos/${prestamo.id}/renovar`, {
+                if (isNaN(nuevoMonto) || nuevoMonto <= 0 || isNaN(nuevoInteres) || nuevoInteres <= 0 || isNaN(nuevoPlazo) || nuevoPlazo <= 0) {
+                    alert("Datos inválidos para la renovación");
+                    return;
+                }
+
+                fetch(`http://localhost:8080/prestamos/${prestamoActual}/renovar`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -335,7 +348,6 @@
                 })
                 .catch(() => alert("❌ Error al renovar el préstamo"));
             };
-        };
         })
         .catch(err => console.error("Error cargando pagos:", err));
     }
@@ -343,7 +355,12 @@
 
     function cerrarModal() {
         document.getElementById("modalRenovar").style.display = "none";
+        document.getElementById("nuevoMonto").value = "";
+        document.getElementById("nuevoInteres").value = "";
+        document.getElementById("nuevoPlazo").value = "";
+        prestamoActual = null;
     }
+
 
     // formato de fecha DD/MM/AAAA
     function formatoFecha(fecha) {
