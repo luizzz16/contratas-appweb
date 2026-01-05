@@ -328,7 +328,7 @@
                     return;
                 }
 
-                fetch(`http://localhost:8080/prestamos/${prestamoActual}/renovar`, {
+                fetch(`http://contratas-app.onrender.com/${prestamoActual}/renovar`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -406,7 +406,7 @@
 
         };
 
-        fetch(`http://localhost:8080/prestamos/cliente/${clienteId}`, {
+        fetch(`http://contratas-app.onrender.com/cliente/${clienteId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
