@@ -69,7 +69,7 @@
 
     // cargar cliente con sus prestamos
     function cargarClienteConPrestamos() {
-    fetch(`http://localhost:8080/clientes/${clienteId}`)
+    fetch(`/clientes/${clienteId}`)
         .then(res => res.json())
         .then(cliente => {
             const lista = document.getElementById("listaClientes");
@@ -133,7 +133,7 @@
                 monto: montoPago
             };
 
-            fetch(`http://localhost:8080/pagos/prestamo/${prestamo.id}`, {
+            fetch(`/pagos/prestamo/${prestamo.id}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -169,7 +169,7 @@
     infoEsperado.textContent = `Monto esperado por pago: ${montoEsperado.toFixed(2)}`;
     liPrestamo.appendChild(infoEsperado);
 
-    fetch(`http://localhost:8080/pagos/prestamo/${prestamo.id}`)
+    fetch(`/pagos/prestamo/${prestamo.id}`)
         .then(res => res.json())
         .then(pagos => {
 
@@ -211,7 +211,7 @@
                     return;
                 }
 
-                fetch(`http://localhost:8080/prestamos/${prestamo.id}/interes`, {
+                fetch(`/prestamos/${prestamo.id}/interes`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json"
@@ -252,7 +252,7 @@
 
             botoncerrarPrestamo.onclick = function () {
                 if (confirm("¿Está seguro de cerrar este préstamo? Esta acción no se puede deshacer.")) {
-                    fetch(`http://localhost:8080/prestamos/${prestamo.id}/cerrar`, {
+                    fetch(`/prestamos/${prestamo.id}/cerrar`, {
                         method: "PUT",
                         headers: {
                             "Content-Type": "application/json"
@@ -284,7 +284,7 @@
 
             botonEliminarPrestamo.onclick = function () {
                 if (confirm("¿Está seguro de eliminar este préstamo? Esta acción no se puede deshacer.")) {
-                    fetch(`http://localhost:8080/prestamos/${prestamo.id}/`, {
+                    fetch(`/prestamos/${prestamo.id}/`, {
                         method: "DELETE"
                     })
                     .then(res => {
@@ -328,7 +328,7 @@
                     return;
                 }
 
-                fetch(`http://contratas-app.onrender.com/${prestamoActual}/renovar`, {
+                fetch(`/prestamos/${prestamoActual}/renovar`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -406,7 +406,7 @@
 
         };
 
-        fetch(`http://contratas-app.onrender.com/cliente/${clienteId}`, {
+        fetch(`/cliente/${clienteId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
