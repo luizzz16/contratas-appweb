@@ -94,12 +94,7 @@ input:focus, select:focus {
 /* ===============================
    LISTA DE PRÉSTAMOS (CARDS)
 ================================ */
-ul {
-    list-style: none;
-    padding: 0;
-    max-width: 700px;
-    margin: 0 auto;
-}
+
 
 li {
     background-color: #ffffff;
@@ -182,9 +177,18 @@ button.renovar:hover {
 button.eliminar-pago {
     background-color: rgba(255, 175, 204, 0.55);
     color: #9d174d;
-    border: 2px solid #f28482;
-    font-weight: bold;
-    margin-left: 10px;
+    border: 1.5px solid #f28482;
+    font-weight: 600;
+
+    padding: 4px 8px;
+    font-size: 0.85rem;
+    line-height: 1;
+
+    margin-left: 8px;
+    border-radius: 6px;
+
+    cursor: pointer;
+    white-space: nowrap;
 }
 
 /* ===============================
@@ -233,6 +237,16 @@ small {
         margin-bottom: 10px;
     }
 }
+
+
+@media (max-width: 600px) {
+    button.eliminar-pago {
+        padding: 3px 6px;
+        font-size: 0.75rem;
+        margin-left: 6px;
+    }
+}
+
 
 
 .modal {
