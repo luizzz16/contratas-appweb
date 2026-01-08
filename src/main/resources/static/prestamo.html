@@ -178,6 +178,10 @@
 
             let totalPagado = 0;
 
+            let btnElimiarPago = document.createElement("button");
+            btnElimiarPago.textContent = "ELiminar";
+            btnElimiarPago.classList.add("eliminar-pago");
+
             if (pagos.length > 0) {
                 pagos.forEach(pago => {
                     totalPagado += pago.monto;
@@ -186,6 +190,29 @@
                     liPago.textContent =
                         `Monto del Pago: ${pago.monto}, Fecha: ${formatoFecha(new Date())}`;
                     ulPagos.appendChild(liPago);
+
+                    // boton para eliminar pago
+                    const botonEliminarPago = btnElimiarPago.cloneNode(true);
+                    liPago.appendChild(botonEliminarPago);
+
+                    botonEliminarPago.onclick = function () {
+                        if (confirm("¿Está seguro de eliminar este pago? Esta acción no se puede deshacer.")) {
+                            fetch(`/pagos/${pago.id}`, {
+                                method: "DELETE"
+                            })
+                            .then(res => {
+                                if (!res.ok) {
+                                    throw new Error("Error al eliminar el pago");
+                                }
+                                alert("✅ Pago eliminado correctamente");
+                                cargarClienteConPrestamos();
+                            })
+                            .catch(err => {
+                                console.error(err);
+                                alert("❌ Error al eliminar el pago");
+                            });
+                        }
+                    }
                 });
             } else {
                 ulPagos.innerHTML = "<li>Sin pagos registrados</li>";

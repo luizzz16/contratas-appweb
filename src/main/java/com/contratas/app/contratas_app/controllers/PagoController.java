@@ -2,6 +2,7 @@ package com.contratas.app.contratas_app.controllers;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,9 +28,7 @@ public class PagoController {
 
 
     @PostMapping("/prestamo/{prestamoId}")
-    public Pago guardarPago(
-            @PathVariable Long prestamoId,
-            @RequestBody Pago pago) {
+    public Pago guardarPago(@PathVariable Long prestamoId, @RequestBody Pago pago) {
 
         return pagoServ.registrarPago(prestamoId, pago.getMonto());
     }
@@ -38,6 +37,11 @@ public class PagoController {
     @GetMapping("/prestamo/{prestamoId}")
     public List<Pago> getMethodName(@PathVariable Long prestamoId) {
         return pagoServ.obtenerPagosPorPrestamo(prestamoId);
+    }
+
+    @DeleteMapping("/{pagoId}")
+    public void eliminarPago(@PathVariable Long pagoId) {
+        pagoServ.eliminarPago(pagoId);
     }
 
 

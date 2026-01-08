@@ -18,7 +18,6 @@ public class PagoServ {
     private final PagoRepo pagoRepo;
     private final PrestamoRepo prestamoRepo;
 
-    
 
     public PagoServ(PagoRepo pagoRepo , PrestamoRepo prestamoRepo) {
         this.pagoRepo = pagoRepo;
@@ -62,6 +61,10 @@ public class PagoServ {
         prestamoRepo.save(prestamo);
 
         return pago;
+    }
+
+    public void eliminarPago(Long pagoId) {
+        pagoRepo.deleteById(pagoId);
     }
 
 
