@@ -177,6 +177,7 @@
             ulPagos.classList.add("lista-pagos");
 
             let totalPagado = 0;
+            let saldoRestante = prestamo.totalAPagar;
 
             let btnElimiarPago = document.createElement("button");
             btnElimiarPago.textContent = "ELiminar";
@@ -185,7 +186,7 @@
             if (pagos.length > 0) {
                 pagos.forEach(pago => {
                     totalPagado += pago.monto;
-                    let saldoRestante = prestamo.saldoRestante || (prestamo.totalAPagar - totalPagado);
+                    saldoRestante = prestamo.saldoRestante || (prestamo.totalAPagar - totalPagado);
 
                     const liPago = document.createElement("li");
                     liPago.textContent =
