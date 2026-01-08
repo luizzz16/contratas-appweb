@@ -47,14 +47,14 @@ h3::after {
 /* ===============================
    CONTENEDORES PRINCIPALES
 ================================ */
-section, form {
+/* section, form {
     background-color: #ffffff;
     padding: 24px;
     margin-bottom: 30px;
     border-radius: 18px;
     border: 1px solid #e6e6e6;
     box-shadow: 0 6px 14px rgba(0,0,0,0.08);
-}
+} */
 
 /* Separador */
 hr {
@@ -94,7 +94,12 @@ input:focus, select:focus {
 /* ===============================
    LISTA DE PRÉSTAMOS (CARDS)
 ================================ */
-
+ul {
+    list-style: none;
+    padding: 0;
+    max-width: 700px;
+    margin: 0 auto;
+}
 
 li {
     background-color: #ffffff;
