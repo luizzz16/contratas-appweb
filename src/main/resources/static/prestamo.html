@@ -185,6 +185,7 @@
             if (pagos.length > 0) {
                 pagos.forEach(pago => {
                     totalPagado += pago.monto;
+                    let saldoRestante = prestamo.saldoRestante || (prestamo.totalAPagar - totalPagado);
 
                     const liPago = document.createElement("li");
                     liPago.textContent =
@@ -264,7 +265,7 @@
             };
 
             // mostrar total pagado y saldo restante
-            let saldoRestante = prestamo.saldoRestante || (prestamo.totalAPagar - totalPagado);
+            
             const saldoInfo = document.createElement("p");
             saldoInfo.textContent = `Total Pagado: ${totalPagado} | Saldo Restante: ${saldoRestante}`;
 

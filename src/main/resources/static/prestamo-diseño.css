@@ -179,6 +179,14 @@ button.renovar:hover {
     box-shadow: 0 5px 12px rgba(0,0,0,0.12);
 }
 
+button.eliminar-pago {
+    background-color: rgba(255, 175, 204, 0.55);
+    color: #9d174d;
+    border: 2px solid #f28482;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
 /* ===============================
    ALERTAS
 ================================ */
