@@ -1,4 +1,3 @@
-
 /* ===============================
    CONFIGURACIÓN GENERAL
 ================================ */
@@ -30,7 +29,6 @@ h1 { font-size: 26px; }
 h2 { font-size: 22px; margin-top: 40px; }
 h3 { font-size: 18px; }
 
-/* Línea decorativa */
 h1::after,
 h2::after,
 h3::after {
@@ -55,14 +53,6 @@ section, form {
     border-radius: 18px;
     border: 1px solid #e6e6e6;
     box-shadow: 0 6px 14px rgba(0,0,0,0.08);
-}
-
-/* Separador */
-hr {
-    border: none;
-    height: 1px;
-    background-color: #e0e0e0;
-    margin: 25px 0;
 }
 
 /* ===============================
@@ -93,37 +83,52 @@ input:focus, select:focus {
 }
 
 /* ===============================
-   LISTA DE PRÉSTAMOS (CARDS)
+   LISTAS
 ================================ */
-ul {
+ul, ol {
     list-style: none;
     padding: 0;
-    max-width: 700px;
+    max-width: 750px;
     margin: 0 auto;
 }
 
-li {
+/* ===============================
+   CARD DE PRÉSTAMO
+================================ */
+.prestamo-card {
     background-color: #ffffff;
     padding: 20px;
-    margin-bottom: 22px;
+    margin-bottom: 25px;
     border-radius: 18px;
     border: 1px solid #e6e6e6;
     box-shadow: 0 5px 12px rgba(0,0,0,0.08);
     font-size: 16px;
-    line-height: 1.8;
-}
-
-/* Sublistas (pagos) */
-li ul li {
-    margin-top: 12px;
-    padding: 14px;
-    background-color: #ffffff;
-    border: 1px solid #939393;
-    box-shadow: none;
+    line-height: 1.7;
 }
 
 /* ===============================
-   BOTONES (MISMA CONFIGURACIÓN)
+   PAGOS
+================================ */
+.lista-pagos {
+    margin-top: 15px;
+    padding-left: 0;
+}
+
+.lista-pagos li {
+    background-color: #f8fafc;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    box-shadow: none;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ===============================
+   BOTONES
 ================================ */
 button {
     padding: 12px 18px;
@@ -132,13 +137,12 @@ button {
     cursor: pointer;
     margin-top: 10px;
     margin-right: 8px;
-
     transition: background-color 0.25s ease,
                 transform 0.2s ease,
                 box-shadow 0.2s ease;
 }
 
-/* ===== CERRAR PRÉSTAMO (VERDE) ===== */
+/* CERRAR PRÉSTAMO */
 button.cerrar {
     background-color: rgba(204, 213, 174, 0.55);
     color: #2f4f2f;
@@ -152,7 +156,7 @@ button.cerrar:hover {
     box-shadow: 0 5px 12px rgba(0,0,0,0.12);
 }
 
-/* ===== ELIMINAR PRÉSTAMO (ROJO) ===== */
+/* ELIMINAR PRÉSTAMO */
 button.eliminar {
     background-color: rgba(255, 175, 204, 0.55);
     color: #9d174d;
@@ -166,7 +170,7 @@ button.eliminar:hover {
     box-shadow: 0 5px 12px rgba(0,0,0,0.12);
 }
 
-/* ===== RENOVAR PRÉSTAMO (AZUL) ===== */
+/* RENOVAR PRÉSTAMO */
 button.renovar {
     background-color: rgba(162, 210, 255, 0.55);
     color: #1d4ed8;
@@ -180,35 +184,37 @@ button.renovar:hover {
     box-shadow: 0 5px 12px rgba(0,0,0,0.12);
 }
 
+/* ELIMINAR PAGO */
 button.eliminar-pago {
     background-color: rgba(255, 175, 204, 0.55);
     color: #9d174d;
-    border: 2px solid #f28482;
-    font-weight: bold;
-    margin-left: 10px;
+    border: 1.5px solid #f28482;
+    font-weight: 600;
+    padding: 4px 8px;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    cursor: pointer;
+    white-space: nowrap;
 }
 
 /* ===============================
-   ALERTAS
+   MODAL
 ================================ */
-.alerta {
-    padding: 15px;
+.modal {
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 20px;
+    width: 350px;
     border-radius: 12px;
-    margin-bottom: 20px;
-    background-color: #f1f5f9;
-    border: 1px solid #dbeafe;
-    font-weight: bold;
-}
-
-/* ===============================
-   ACCESIBILIDAD
-================================ */
-button, input, select {
-    min-height: 44px;
-}
-
-small {
-    font-size: 14px;
 }
 
 /* ===============================
@@ -233,26 +239,10 @@ small {
         margin-right: 0;
         margin-bottom: 10px;
     }
-}
 
-
-.modal {
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background-color: #fff;
-    padding: 20px;
-    width: 350px;
-    border-radius: 8px;
+    .lista-pagos li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
 }
