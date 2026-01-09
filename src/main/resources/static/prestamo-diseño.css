@@ -29,6 +29,7 @@ h1 { font-size: 26px; }
 h2 { font-size: 22px; margin-top: 40px; }
 h3 { font-size: 18px; }
 
+/* Línea decorativa */
 h1::after,
 h2::after,
 h3::after {
@@ -44,9 +45,9 @@ h3::after {
 }
 
 /* ===============================
-   FORMULARIOS (SÍ VAN EN CAJA)
+   CONTENEDORES PRINCIPALES
 ================================ */
-form {
+section, form {
     background-color: #ffffff;
     padding: 24px;
     margin-bottom: 30px;
@@ -55,46 +56,52 @@ form {
     box-shadow: 0 6px 14px rgba(0,0,0,0.08);
 }
 
+/* Separador */
+hr {
+    border: none;
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 25px 0;
+}
+
+/* ===============================
+   FORMULARIOS
+================================ */
 form div {
     margin-bottom: 18px;
 }
 
 label {
-    font-weight: bold;
     display: block;
+    font-weight: bold;
     margin-bottom: 6px;
 }
 
-input {
+input, select {
     width: 100%;
     padding: 14px;
     font-size: 16px;
     border-radius: 12px;
     border: 2px solid #a2d2ff;
+    background-color: #ffffff;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #6fa8dc;
 }
 
 /* ===============================
-   LISTAS
+   LISTA DE PRÉSTAMOS (CARDS)
 ================================ */
 ul {
     list-style: none;
     padding: 0;
-    margin: 0;
+    max-width: 700px;
+    margin: 0 auto;
 }
 
-/* ❌ CLIENTE → SIN CAJA */
-li.cliente-item {
-    padding: 0;
-    margin-bottom: 16px;
-    border: none;
-    box-shadow: none;
-    background: none;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-/* ✅ PRÉSTAMOS → CON CAJA */
-li.cliente-item > ul > li {
+li {
     background-color: #ffffff;
     padding: 20px;
     margin-bottom: 22px;
@@ -105,17 +112,17 @@ li.cliente-item > ul > li {
     line-height: 1.8;
 }
 
-/* Sublista pagos */
-li.cliente-item ul ul li {
+/* Sublistas (pagos) */
+li ul li {
     margin-top: 12px;
     padding: 14px;
-    border: 1px solid #ccc;
-    border-radius: 12px;
+    background-color: #ffffff;
+    border: 1px solid #939393;
     box-shadow: none;
 }
 
 /* ===============================
-   BOTONES
+   BOTONES (MISMA CONFIGURACIÓN)
 ================================ */
 button {
     padding: 12px 18px;
@@ -124,59 +131,146 @@ button {
     cursor: pointer;
     margin-top: 10px;
     margin-right: 8px;
+
+    transition: background-color 0.25s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
 }
 
+/* ===== CERRAR PRÉSTAMO (VERDE) ===== */
 button.cerrar {
-    background: #ccd5ae;
+    background-color: rgba(204, 213, 174, 0.55);
+    color: #2f4f2f;
     border: 2px solid #a3b18a;
+    font-weight: bold;
 }
 
+button.cerrar:hover {
+    background-color: rgba(204, 213, 174, 0.85);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+}
+
+/* ===== ELIMINAR PRÉSTAMO (ROJO) ===== */
 button.eliminar {
-    background: #ffafcc;
+    background-color: rgba(255, 175, 204, 0.55);
+    color: #9d174d;
     border: 2px solid #f28482;
+    font-weight: bold;
 }
 
+button.eliminar:hover {
+    background-color: rgba(255, 175, 204, 0.85);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+}
+
+/* ===== RENOVAR PRÉSTAMO (AZUL) ===== */
 button.renovar {
-    background: #a2d2ff;
+    background-color: rgba(162, 210, 255, 0.55);
+    color: #1d4ed8;
     border: 2px solid #6fa8dc;
+    font-weight: bold;
+}
+
+button.renovar:hover {
+    background-color: rgba(162, 210, 255, 0.85);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.12);
 }
 
 button.eliminar-pago {
+    background-color: rgba(255, 175, 204, 0.55);
+    color: #9d174d;
+    border: 1.5px solid #f28482;
+    font-weight: 600;
+
     padding: 4px 8px;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
+    line-height: 1;
+
+    margin-left: 8px;
     border-radius: 6px;
+
+    cursor: pointer;
+    white-space: nowrap;
 }
 
 /* ===============================
-   MODAL
+   ALERTAS
 ================================ */
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.alerta {
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    background-color: #f1f5f9;
+    border: 1px solid #dbeafe;
+    font-weight: bold;
 }
 
-.modal-content {
-    background: white;
-    padding: 20px;
-    width: 350px;
-    border-radius: 12px;
+/* ===============================
+   ACCESIBILIDAD
+================================ */
+button, input, select {
+    min-height: 44px;
+}
+
+small {
+    font-size: 14px;
 }
 
 /* ===============================
    RESPONSIVE
 ================================ */
 @media (max-width: 600px) {
-    body { padding: 12px; }
 
-    li.cliente-item > ul > li {
-        padding: 16px;
+    body {
+        padding: 12px;
+    }
+
+    section, form {
+        padding: 18px;
+    }
+
+    h1, h2, h3 {
+        font-size: 20px;
     }
 
     button {
         width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
     }
+}
+
+
+@media (max-width: 600px) {
+    button.eliminar-pago {
+        padding: 3px 6px;
+        font-size: 0.75rem;
+        margin-left: 6px;
+    }
+}
+
+
+
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    width: 350px;
+    border-radius: 8px;
 }
