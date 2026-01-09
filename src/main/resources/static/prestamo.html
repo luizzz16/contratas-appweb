@@ -86,7 +86,6 @@
                 prestamosActivos.forEach(prestamo => {
 
                     const liPrestamo = document.createElement("li");
-                    liPrestamo.classList.add("prestamo-card");
 
                     liPrestamo.textContent =
                         `Monto: ${prestamo.monto}, Total a Pagar: ${prestamo.totalAPagar}, Interés: ${prestamo.interes}, Plazo: ${prestamo.plazo},  Fecha de Registro: ${formatoFecha(prestamo.fechaRegistro)}`;

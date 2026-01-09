@@ -25,10 +25,20 @@ h1, h2, h3 {
     color: #000;
 }
 
-h1 { font-size: 26px; }
-h2 { font-size: 22px; margin-top: 40px; }
-h3 { font-size: 18px; }
+h1 {
+    font-size: 26px;
+}
 
+h2 {
+    font-size: 22px;
+    margin-top: 40px;
+}
+
+h3 {
+    font-size: 18px;
+}
+
+/* Línea decorativa debajo de títulos */
 h1::after,
 h2::after,
 h3::after {
@@ -46,13 +56,22 @@ h3::after {
 /* ===============================
    CONTENEDORES PRINCIPALES
 ================================ */
-section, form {
+section,
+form {
     background-color: #ffffff;
     padding: 24px;
     margin-bottom: 30px;
     border-radius: 18px;
     border: 1px solid #e6e6e6;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+}
+
+/* Separador */
+hr {
+    border: none;
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 25px 0;
 }
 
 /* ===============================
@@ -68,7 +87,8 @@ label {
     margin-bottom: 6px;
 }
 
-input, select {
+input,
+select {
     width: 100%;
     padding: 14px;
     font-size: 16px;
@@ -77,58 +97,44 @@ input, select {
     background-color: #ffffff;
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
     outline: none;
     border-color: #6fa8dc;
 }
 
 /* ===============================
-   LISTAS
+   LISTA DE PRÉSTAMOS (CARDS)
 ================================ */
-ul, ol {
+ul {
     list-style: none;
     padding: 0;
-    max-width: 750px;
+    max-width: 700px;
     margin: 0 auto;
 }
 
-/* ===============================
-   CARD DE PRÉSTAMO
-================================ */
-.prestamo-card {
+li {
     background-color: #ffffff;
     padding: 20px;
-    margin-bottom: 25px;
+    margin-bottom: 22px;
     border-radius: 18px;
     border: 1px solid #e6e6e6;
-    box-shadow: 0 5px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.08);
     font-size: 16px;
-    line-height: 1.7;
+    line-height: 1.8;
 }
 
-/* ===============================
-   PAGOS
-================================ */
-.lista-pagos {
-    margin-top: 15px;
-    padding-left: 0;
-}
-
-.lista-pagos li {
-    background-color: #f8fafc;
-    padding: 10px 14px;
-    margin-bottom: 8px;
-    border-radius: 10px;
-    border: 1px solid #cbd5e1;
+/* Sublistas (pagos) */
+li ul li {
+    margin-top: 12px;
+    padding: 14px;
+    background-color: #ffffff;
+    border: 1px solid #939393;
     box-shadow: none;
-    font-size: 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 /* ===============================
-   BOTONES
+   BOTONES (BASE)
 ================================ */
 button {
     padding: 12px 18px;
@@ -137,12 +143,13 @@ button {
     cursor: pointer;
     margin-top: 10px;
     margin-right: 8px;
-    transition: background-color 0.25s ease,
-                transform 0.2s ease,
-                box-shadow 0.2s ease;
+    transition:
+        background-color 0.25s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-/* CERRAR PRÉSTAMO */
+/* ===== CERRAR PRÉSTAMO (VERDE) ===== */
 button.cerrar {
     background-color: rgba(204, 213, 174, 0.55);
     color: #2f4f2f;
@@ -153,10 +160,10 @@ button.cerrar {
 button.cerrar:hover {
     background-color: rgba(204, 213, 174, 0.85);
     transform: translateY(-2px);
-    box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.12);
 }
 
-/* ELIMINAR PRÉSTAMO */
+/* ===== ELIMINAR PRÉSTAMO (ROJO) ===== */
 button.eliminar {
     background-color: rgba(255, 175, 204, 0.55);
     color: #9d174d;
@@ -167,10 +174,10 @@ button.eliminar {
 button.eliminar:hover {
     background-color: rgba(255, 175, 204, 0.85);
     transform: translateY(-2px);
-    box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.12);
 }
 
-/* RENOVAR PRÉSTAMO */
+/* ===== RENOVAR PRÉSTAMO (AZUL) ===== */
 button.renovar {
     background-color: rgba(162, 210, 255, 0.55);
     color: #1d4ed8;
@@ -181,10 +188,10 @@ button.renovar {
 button.renovar:hover {
     background-color: rgba(162, 210, 255, 0.85);
     transform: translateY(-2px);
-    box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.12);
 }
 
-/* ELIMINAR PAGO */
+/* ===== ELIMINAR PAGO (PEQUEÑO) ===== */
 button.eliminar-pago {
     background-color: rgba(255, 175, 204, 0.55);
     color: #9d174d;
@@ -192,29 +199,36 @@ button.eliminar-pago {
     font-weight: 600;
     padding: 4px 8px;
     font-size: 0.85rem;
+    line-height: 1;
+    margin-left: 8px;
     border-radius: 6px;
     cursor: pointer;
     white-space: nowrap;
 }
 
 /* ===============================
-   MODAL
+   ALERTAS
 ================================ */
-.modal {
-    position: fixed;
-    z-index: 1000;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.alerta {
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    background-color: #f1f5f9;
+    border: 1px solid #dbeafe;
+    font-weight: bold;
 }
 
-.modal-content {
-    background-color: #ffffff;
-    padding: 20px;
-    width: 350px;
-    border-radius: 12px;
+/* ===============================
+   ACCESIBILIDAD
+================================ */
+button,
+input,
+select {
+    min-height: 44px;
+}
+
+small {
+    font-size: 14px;
 }
 
 /* ===============================
@@ -226,11 +240,14 @@ button.eliminar-pago {
         padding: 12px;
     }
 
-    section, form {
+    section,
+    form {
         padding: 18px;
     }
 
-    h1, h2, h3 {
+    h1,
+    h2,
+    h3 {
         font-size: 20px;
     }
 
@@ -240,9 +257,34 @@ button.eliminar-pago {
         margin-bottom: 10px;
     }
 
-    .lista-pagos li {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px;
+    button.eliminar-pago {
+        padding: 3px 6px;
+        font-size: 0.75rem;
+        margin-left: 6px;
     }
 }
+
+/* ===============================
+   MODAL
+================================ */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    width: 350px;
+    border-radius: 8px;
+}
+
+
