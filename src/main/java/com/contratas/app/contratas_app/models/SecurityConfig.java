@@ -16,14 +16,26 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/login", "/css/**", "/js/**").permitAll()
+                .requestMatchers(
+                    "/",
+                    "/login",
+                    "/css/**",
+                    "/js/**",
+                    "/images/**"
+                ).permitAll()
                 .anyRequest().authenticated()
             )
-            .oauth2Login(oauth2 -> {
-                // configuración por defecto
-            });
+            .oauth2Login(oauth2 -> oauth2
+                .defaultSuccessUrl("/home", true)
+            )
+            .logout(logout -> logout
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+            );
 
         return http.build();
     }
 }
+
 
