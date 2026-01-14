@@ -1,5 +1,9 @@
 package com.contratas.app.contratas_app.repositories;
 import com.contratas.app.contratas_app.models.Cliente;
+import com.contratas.app.contratas_app.models.Prestador;
+
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,5 +17,6 @@ import org.springframework.stereotype.Repository;
 // guardar, buscar, listar, actualizar y borrar clientes
 // sin escribir código SQL
 public interface ClienteRepo extends JpaRepository<Cliente, Long> {
+    List<Cliente> findByPrestador(Prestador prestador);
 } 
 

@@ -9,10 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.contratas.app.contratas_app.models.Cliente;
 import com.contratas.app.contratas_app.services.ClienteServ;
+import com.contratas.app.contratas_app.services.PrestadorServ;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import org.springframework.security.core.Authentication;
+
 
 
 
@@ -23,21 +28,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class ClienteController {
 
     private final ClienteServ clienteServ;
+    private final PrestadorServ prestadorServ;
 
-    public ClienteController(ClienteServ clienteServ) {
+    public ClienteController(ClienteServ clienteServ, PrestadorServ prestadorServ) {
         this.clienteServ = clienteServ;
+        this.prestadorServ = prestadorServ;
     }
 
     @PostMapping // Maneja solicitudes HTTP POST para crear un nuevo cliente
-
     //  El requestbody conviere el JSON del cuerpo de la solicitud en un objeto Cliente
-    public Cliente guardar(@RequestBody Cliente cliente) {
-        return clienteServ.guardarCliente(cliente);
+    public Cliente guardar(@RequestBody Cliente cliente, Authentication authentication) {
+        return clienteServ.guardarCliente(cliente, authentication);
     }
 
-    @GetMapping()
-    public List<Cliente> listarClientes() {
-        return clienteServ.obttenerTodos();
+    @GetMapping
+    public List<Cliente> listarClientes(Authentication authentication) {
+        return clienteServ.obtenerClientesDelPrestador(authentication);
     }
 
     @GetMapping("/{id}")

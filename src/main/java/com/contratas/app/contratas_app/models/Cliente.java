@@ -82,7 +82,13 @@ public class Cliente {
         return prestamos;
     }
 
-    
+    public Prestador getPrestador() {
+        return prestador;
+    }
+
+    public void setPrestador(Prestador prestador) {
+        this.prestador = prestador;
+    }
 
 
 
