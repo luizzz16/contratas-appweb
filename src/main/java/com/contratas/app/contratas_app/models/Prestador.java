@@ -12,12 +12,10 @@ public class Prestador {
 
     @Id
     @GeneratedValue
+
     private Long id;
-
     private String nombre;
-
     private String correo; // viene de Google (email único)
-
     private String googleId; // ID único de Google
 
     @OneToMany(mappedBy = "prestador", cascade = CascadeType.ALL)
@@ -77,10 +75,4 @@ public class Prestador {
     public void setGoogleId(String googleId) {
         this.googleId = googleId;
     }
-
-    
-
-
-    
-
 }

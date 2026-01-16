@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.contratas.app.contratas_app.models.Cliente;
 import com.contratas.app.contratas_app.services.ClienteServ;
-import com.contratas.app.contratas_app.services.PrestadorServ;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,11 +27,9 @@ import org.springframework.security.core.Authentication;
 public class ClienteController {
 
     private final ClienteServ clienteServ;
-    private final PrestadorServ prestadorServ;
 
-    public ClienteController(ClienteServ clienteServ, PrestadorServ prestadorServ) {
+    public ClienteController(ClienteServ clienteServ) {
         this.clienteServ = clienteServ;
-        this.prestadorServ = prestadorServ;
     }
 
     @PostMapping // Maneja solicitudes HTTP POST para crear un nuevo cliente

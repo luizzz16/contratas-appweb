@@ -17,7 +17,6 @@ public class PrestadorServ {
     }
 
     public Prestador obtenerPrestadorActual(Authentication authentication) {
-
         OAuth2User user = (OAuth2User) authentication.getPrincipal();
         String googleId = user.getAttribute("sub");
 

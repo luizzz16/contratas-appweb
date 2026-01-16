@@ -10,8 +10,6 @@ import com.contratas.app.contratas_app.models.Prestador;
 import com.contratas.app.contratas_app.repositories.ClienteRepo;
 import org.springframework.security.core.Authentication;
 
-import com.contratas.app.contratas_app.services.PrestadorServ;
-
 
 @Service // Indica que es un servicio de Spring
 public class ClienteServ {
