@@ -25,6 +25,7 @@ public class Prestamo {
     private Boolean estado = false;
     private Double totalAPagar;
     private Double saldoRestante;
+    private String fechaFinalizacion; 
 
     // Se relaciona muchos prestamos a un cliente
     @ManyToOne
@@ -113,6 +114,18 @@ public class Prestamo {
 
     public List<Pago> getPagos() {
         return pagos;
+    }
+
+    public void setPagos(List<Pago> pagos) {
+        this.pagos = pagos;
+    }
+
+    public String getFechaFinalizacion() {
+        return fechaFinalizacion;
+    }
+
+    public void setFechaFinalizacion(String fechaFinalizacion) {
+        this.fechaFinalizacion = fechaFinalizacion;
     }
 
 }

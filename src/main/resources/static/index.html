@@ -8,7 +8,8 @@
 </head>
 <body>
 
-    <h1>Registro de Cliente</h1>
+    <h2>Registro de Cliente</h2>
+
 
     <form id="registroCliente">
         <div>
@@ -55,6 +56,13 @@
 
                         li.appendChild(btnPrestamo);
                         lista.appendChild(li);
+
+                        const btnInfoCliente = document.createElement("button");
+                        btnInfoCliente.textContent = "Ver Info Cliente";
+                        li.appendChild(btnInfoCliente);
+                        btnInfoCliente.onclick = function() {
+                            window.location.href = `infoCliente.html?clienteId=${cliente.id}`;
+                        };
 
                         const btnEliminarCliente = document.createElement("button");
                         btnEliminarCliente.textContent = "Eliminar Cliente";

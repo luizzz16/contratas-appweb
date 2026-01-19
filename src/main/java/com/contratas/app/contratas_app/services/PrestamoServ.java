@@ -69,6 +69,7 @@ public class PrestamoServ {
             throw new RuntimeException("No se puede cerrar el préstamo con saldo restante");
         }
         prestamo.setEstado(true);
+        prestamo.setFechaFinalizacion(LocalDate.now().toString());
         return prestamoRepo.save(prestamo);
     }
 

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Info cliente</title>
+</head>
+<body>
+    <h1>Información del Cliente</h1>
+        <!-- La información del cliente se cargará aquí -->
+        <script>
+    
+            const params = new URLSearchParams(window.location.search);
+            const clienteId = params.get('clienteId');
+
+            const h2Contratas = document.createElement("h2");
+            h2Contratas.textContent = "CONTRATAS TERMINADAS";
+            document.body.appendChild(h2Contratas);
+            const ulContratas = document.createElement("ul");
+            document.body.appendChild(ulContratas);
+
+            fetch(`/clientes/${clienteId}`)
+                .then(response => response.json())
+                .then(cliente => {
+                    const h3 = document.createElement("h3");
+                    h3.textContent = `Nombre: ${cliente.nombre}, Tel: ${cliente.telefono}, Dirección: ${cliente.direccion}`;
+                    document.body.insertBefore(h3, h2Contratas);
+
+                    // Cargar las contratas terminadas del cliente
+                    fetch(`/clientes/${clienteId}/contratas`)
+                        .then(response => response.json())
+                        .then(contratas => {
+                            contratas.forEach(contrata => {
+                                if (contrata.estado === true) {
+
+                                const li = document.createElement("li");
+                                li.textContent = `Monto: ${contrata.monto}, Interes: ${contrata.interes}, Plazo: ${contrata.plazo}, Total a pagar: ${contrata.totalAPagar}, Fecha de registro: ${contrata.fechaRegistro}, Estado: terminada, Fecha de finalización: ${contrata.fechaFinalizacion}
+                                Pagos Realizados: ${contrata.pagos}`;
+                                ulContratas.appendChild(li);
+
+                                }
+                            });
+                        });
+                });
+
+        </script>
+
+</body>
+</html>m
