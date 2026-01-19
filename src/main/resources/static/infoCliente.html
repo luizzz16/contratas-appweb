@@ -1,49 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Info cliente</title>
+    <title>Info Cliente</title>
 </head>
 <body>
-    <h1>Información del Cliente</h1>
-        <!-- La información del cliente se cargará aquí -->
-        <script>
-    
-            const params = new URLSearchParams(window.location.search);
-            const clienteId = params.get('clienteId');
 
-            const h2Contratas = document.createElement("h2");
-            h2Contratas.textContent = "CONTRATAS TERMINADAS";
-            document.body.appendChild(h2Contratas);
-            const ulContratas = document.createElement("ul");
-            document.body.appendChild(ulContratas);
+<h1>Información del Cliente</h1>
 
-            fetch(`/clientes/${clienteId}`)
-                .then(response => response.json())
-                .then(cliente => {
-                    const h3 = document.createElement("h3");
-                    h3.textContent = `Nombre: ${cliente.nombre}, Tel: ${cliente.telefono}, Dirección: ${cliente.direccion}`;
-                    document.body.insertBefore(h3, h2Contratas);
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const clienteId = params.get("clienteId");
 
-                    // Cargar las contratas terminadas del cliente
-                    fetch(`/clientes/${clienteId}/contratas`)
-                        .then(response => response.json())
-                        .then(contratas => {
-                            contratas.forEach(contrata => {
-                                if (contrata.estado === true) {
+    /* ---------- Título préstamos ---------- */
+    const h2Prestamos = document.createElement("h2");
+    h2Prestamos.textContent = "PRÉSTAMOS TERMINADOS";
+    document.body.appendChild(h2Prestamos);
 
-                                const li = document.createElement("li");
-                                li.textContent = `Monto: ${contrata.monto}, Interes: ${contrata.interes}, Plazo: ${contrata.plazo}, Total a pagar: ${contrata.totalAPagar}, Fecha de registro: ${contrata.fechaRegistro}, Estado: terminada, Fecha de finalización: ${contrata.fechaFinalizacion}
-                                Pagos Realizados: ${contrata.pagos}`;
-                                ulContratas.appendChild(li);
+    const ulPrestamos = document.createElement("ul");
+    document.body.appendChild(ulPrestamos);
 
-                                }
-                            });
-                        });
-                });
+    /* ---------- Info del cliente ---------- */
+    fetch(`/clientes/${clienteId}`)
+        .then(res => {
+            if (!res.ok) throw new Error("Error al cargar cliente");
+            return res.json();
+        })
+        .then(cliente => {
+            const h3 = document.createElement("h3");
+            h3.textContent = `Nombre: ${cliente.nombre} | Tel: ${cliente.telefono} | Dirección: ${cliente.direccion}`;
+            document.body.insertBefore(h3, h2Prestamos);
+        })
+        .catch(err => console.error(err));
 
-        </script>
+    /* ---------- Préstamos del cliente ---------- */
+    fetch(`/prestamos/cliente/${clienteId}`)
+        .then(res => {
+            if (!res.ok) throw new Error("Error al cargar préstamos");
+            return res.json();
+        })
+        .then(prestamos => {
+
+            if (!Array.isArray(prestamos)) {
+                console.error("Respuesta inesperada:", prestamos);
+                return;
+            }
+
+            prestamos.forEach(prestamo => {
+                // true = cerrado según tu backend
+                if (prestamo.estado === true) {
+
+                    const li = document.createElement("li");
+                    li.innerHTML = `
+                        <strong>Monto:</strong> ${prestamo.monto} <br>
+                        <strong>Interés:</strong> ${prestamo.interes} <br>
+                        <strong>Plazo:</strong> ${prestamo.plazo} <br>
+                        <strong>Total a pagar:</strong> ${prestamo.totalAPagar} <br>
+                        <strong>Fecha registro:</strong> ${prestamo.fechaRegistro} <br>
+                        <strong>Fecha cierre:</strong> ${prestamo.fechaFinalizacion}
+                    `;
+                    ulPrestamos.appendChild(li);
+                }
+            });
+
+            if (ulPrestamos.children.length === 0) {
+                ulPrestamos.innerHTML = "<li>No hay préstamos terminados</li>";
+            }
+        })
+        .catch(err => console.error(err));
+</script>
 
 </body>
-</html>m
+</html>
