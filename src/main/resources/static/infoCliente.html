@@ -30,6 +30,7 @@
             })
             .then(cliente => {
                 const h3 = document.createElement("h3");
+                h3.classList.add("cliente-card");
                 h3.textContent = `Nombre: ${cliente.nombre} | Tel: ${cliente.telefono} | Dirección: ${cliente.direccion}`;
                 document.body.insertBefore(h3, h2Prestamos);
             })
@@ -55,6 +56,7 @@
                         totalGanancias += (prestamo.totalAPagar - prestamo.monto);
 
                         const li = document.createElement("li");
+                        li.classList.add("prestamo-card");
                         li.innerHTML = `
                             <strong>Monto:</strong> ${prestamo.monto} <br>
                             <strong>Interés:</strong> ${prestamo.interes} <br>
@@ -66,11 +68,13 @@
                         ulPrestamos.appendChild(li);
 
                         let ganaciasTxt = document.createElement("p");
+                        ganaciasTxt.classList.add("ganancia-prestamo");
                         ganaciasTxt.innerHTML = `<strong>Ganancias del préstamo:</strong> ${prestamo.totalAPagar - prestamo.monto}`;
                         li.appendChild(ganaciasTxt);
 
 
                         let btnActivarContrata = document.createElement("button");
+                        btnActivarContrata.classList.add("btn-activar");
                         btnActivarContrata.textContent = "Activar Contrata";
                         li.appendChild(btnActivarContrata);
                         btnActivarContrata.onclick = function() {
