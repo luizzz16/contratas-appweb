@@ -73,6 +73,15 @@ public class PrestamoServ {
         return prestamoRepo.save(prestamo);
     }
 
+    @Transactional
+    public Prestamo activarPrestamo(long prestamoId) {
+        Prestamo prestamo = prestamoRepo.findById(prestamoId).orElseThrow(() -> new RuntimeException("Préstamo no encontrado"));
+
+        prestamo.setEstado(false);
+        prestamo.setFechaFinalizacion(null);
+        return prestamoRepo.save(prestamo);
+    }
+
     // Eliminar préstamo
     @Transactional
     public void eliminarPrestamo(long prestamoId) {

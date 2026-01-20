@@ -67,6 +67,24 @@
                     let ganaciasTxt = document.createElement("p");
                     ganaciasTxt.innerHTML = `<strong>Ganancias del préstamo:</strong> ${prestamo.totalAPagar - prestamo.monto}`;
                     li.appendChild(ganaciasTxt);
+
+
+                    let btnActivarContrata = document.createElement("button");
+                    btnActivarContrata.textContent = "Activar Contrata";
+                    btnActivarContrata.onclick = function() {
+                        prestamo.estado = false; // Cambiar estado a activo
+                        fetch(`/prestamos/${prestamo.id}/activar`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(prestamo)
+                        }).then(res => {
+                            if (!res.ok) throw new Error("Error al activar contrata");
+                            alert("Contrata activada exitosamente");
+                            window.location.reload();
+                        }).catch(err => console.error(err));
+                    };
                 }
             });
 

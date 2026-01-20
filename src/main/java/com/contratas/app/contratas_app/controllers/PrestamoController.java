@@ -48,9 +48,14 @@ public class PrestamoController {
         return prestamoService.registrarInteresRetraso(prestamoId, monto);
     }
 
-    @PutMapping("/{prestamoId}/cerrar")
+    @PutMapping("/{prestamoId}/activar")
     public Prestamo cerrarPrestamo(@PathVariable Long prestamoId) {
         return prestamoService.cerrarPrestamo(prestamoId);
+    }
+
+    @PutMapping("/{prestamoId}/pagar")
+    public Prestamo activarPrestamo(@PathVariable Long prestamoId) {
+        return prestamoService.activarPrestamo(prestamoId);
     }
 
     @DeleteMapping("/{prestamoId}/")
