@@ -1,0 +1,101 @@
+/* ===============================
+   INFO CLIENTE
+================================ */
+.cliente-card {
+    max-width: 700px;
+    margin: 0 auto 30px;
+    padding: 20px;
+    border-radius: 18px;
+    background-color: #f8fafc;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* ===============================
+   PRÉSTAMOS TERMINADOS (CARDS)
+================================ */
+.prestamo-card {
+    background-color: #ffffff;
+    padding: 22px;
+    border-radius: 18px;
+    border: 1px solid #e6e6e6;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    margin-bottom: 26px;
+    position: relative;
+}
+
+/* Separación visual entre datos */
+.prestamo-card strong {
+    color: #1f2937;
+}
+
+/* ===============================
+   GANANCIAS
+================================ */
+.ganancia-prestamo {
+    margin-top: 14px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background-color: rgba(204, 213, 174, 0.35);
+    border: 1px solid #a3b18a;
+    font-weight: bold;
+    color: #2f4f2f;
+}
+
+/* Ganancia total */
+h3 strong {
+    color: #166534;
+}
+
+/* ===============================
+   BOTÓN ACTIVAR CONTRATA
+================================ */
+.btn-activar {
+    background-color: rgba(162, 210, 255, 0.55);
+    color: #1d4ed8;
+    border: 2px solid #6fa8dc;
+    font-weight: bold;
+}
+
+.btn-activar:hover {
+    background-color: rgba(162, 210, 255, 0.85);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* ===============================
+   LISTA VACÍA
+================================ */
+ul li:only-child {
+    text-align: center;
+    font-weight: bold;
+    background-color: #f1f5f9;
+}
+
+/* ===============================
+   RESPONSIVE – CELULARES
+================================ */
+@media (max-width: 600px) {
+
+    .cliente-card {
+        font-size: 15px;
+        padding: 16px;
+    }
+
+    .prestamo-card {
+        padding: 18px;
+        font-size: 15px;
+    }
+
+    .ganancia-prestamo {
+        font-size: 15px;
+        text-align: center;
+    }
+
+    .btn-activar {
+        width: 100%;
+        margin-top: 14px;
+    }
+}

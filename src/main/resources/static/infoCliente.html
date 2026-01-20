@@ -71,6 +71,7 @@
 
                     let btnActivarContrata = document.createElement("button");
                     btnActivarContrata.textContent = "Activar Contrata";
+                    li.appendChild(btnActivarContrata);
                     btnActivarContrata.onclick = function() {
                         prestamo.estado = false; // Cambiar estado a activo
                         fetch(`/prestamos/${prestamo.id}/activar`, {
