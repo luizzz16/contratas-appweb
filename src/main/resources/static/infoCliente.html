@@ -1,121 +1,122 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Info Cliente</title>
-</head>
-<body>
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Info Cliente</title>
+        <link rel="stylesheet" href="infoClient-diseño.css">
+    </head>
+    <body>
 
-<h1>Información del Cliente</h1>
+    <h1>Información del Cliente</h1>
 
-<script>
-    const params = new URLSearchParams(window.location.search);
-    const clienteId = params.get("clienteId");
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const clienteId = params.get("clienteId");
 
-    /* ---------- Título préstamos ---------- */
-    const h2Prestamos = document.createElement("h2");
-    h2Prestamos.textContent = "PRÉSTAMOS TERMINADOS";
-    document.body.appendChild(h2Prestamos);
+        /* ---------- Título préstamos ---------- */
+        const h2Prestamos = document.createElement("h2");
+        h2Prestamos.textContent = "PRÉSTAMOS TERMINADOS";
+        document.body.appendChild(h2Prestamos);
 
-    const ulPrestamos = document.createElement("ul");
-    document.body.appendChild(ulPrestamos);
+        const ulPrestamos = document.createElement("ul");
+        document.body.appendChild(ulPrestamos);
 
-    /* ---------- Info del cliente ---------- */
-    fetch(`/clientes/${clienteId}`)
-        .then(res => {
-            if (!res.ok) throw new Error("Error al cargar cliente");
-            return res.json();
-        })
-        .then(cliente => {
-            const h3 = document.createElement("h3");
-            h3.textContent = `Nombre: ${cliente.nombre} | Tel: ${cliente.telefono} | Dirección: ${cliente.direccion}`;
-            document.body.insertBefore(h3, h2Prestamos);
-        })
-        .catch(err => console.error(err));
+        /* ---------- Info del cliente ---------- */
+        fetch(`/clientes/${clienteId}`)
+            .then(res => {
+                if (!res.ok) throw new Error("Error al cargar cliente");
+                return res.json();
+            })
+            .then(cliente => {
+                const h3 = document.createElement("h3");
+                h3.textContent = `Nombre: ${cliente.nombre} | Tel: ${cliente.telefono} | Dirección: ${cliente.direccion}`;
+                document.body.insertBefore(h3, h2Prestamos);
+            })
+            .catch(err => console.error(err));
 
-    /* ---------- Préstamos del cliente ---------- */
-    fetch(`/prestamos/cliente/${clienteId}`)
-        .then(res => {
-            if (!res.ok) throw new Error("Error al cargar préstamos");
-            return res.json();
-        })
-        .then(prestamos => {
+        /* ---------- Préstamos del cliente ---------- */
+        fetch(`/prestamos/cliente/${clienteId}`)
+            .then(res => {
+                if (!res.ok) throw new Error("Error al cargar préstamos");
+                return res.json();
+            })
+            .then(prestamos => {
 
-            if (!Array.isArray(prestamos)) {
-                console.error("Respuesta inesperada:", prestamos);
-                return;
-            }
-            let totalGanancias = 0;
-
-            prestamos.forEach(prestamo => {
-                // true = cerrado según tu backend
-                if (prestamo.estado === true) {
-                    totalGanancias += (prestamo.totalAPagar - prestamo.monto);
-
-                    const li = document.createElement("li");
-                    li.innerHTML = `
-                        <strong>Monto:</strong> ${prestamo.monto} <br>
-                        <strong>Interés:</strong> ${prestamo.interes} <br>
-                        <strong>Plazo:</strong> ${prestamo.plazo} <br>
-                        <strong>Total a pagar:</strong> ${prestamo.totalAPagar} <br>
-                        <strong>Fecha registro:</strong> ${formatoFecha(prestamo.fechaRegistro)} <br>
-                        <strong>Fecha cierre:</strong> ${formatoFecha(prestamo.fechaFinalizacion)}
-                    `;
-                    ulPrestamos.appendChild(li);
-
-                    let ganaciasTxt = document.createElement("p");
-                    ganaciasTxt.innerHTML = `<strong>Ganancias del préstamo:</strong> ${prestamo.totalAPagar - prestamo.monto}`;
-                    li.appendChild(ganaciasTxt);
-
-
-                    let btnActivarContrata = document.createElement("button");
-                    btnActivarContrata.textContent = "Activar Contrata";
-                    li.appendChild(btnActivarContrata);
-                    btnActivarContrata.onclick = function() {
-                        prestamo.estado = false; // Cambiar estado a activo
-                        fetch(`/prestamos/${prestamo.id}/activar`, {
-                            method: 'PUT',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(prestamo)
-                        }).then(res => {
-                            if (!res.ok) throw new Error("Error al activar contrata");
-                            alert("Contrata activada exitosamente");
-                            window.location.reload();
-                        }).catch(err => console.error(err));
-                    };
+                if (!Array.isArray(prestamos)) {
+                    console.error("Respuesta inesperada:", prestamos);
+                    return;
                 }
-            });
+                let totalGanancias = 0;
 
-            let totalGananciasTxt = document.createElement("h3");
-            totalGananciasTxt.innerHTML = `<strong>Ganancias totales de préstamos terminados:</strong> ${totalGanancias}`;
-            document.body.insertBefore(totalGananciasTxt, ulPrestamos.nextSibling);
+                prestamos.forEach(prestamo => {
+                    // true = cerrado según tu backend
+                    if (prestamo.estado === true) {
+                        totalGanancias += (prestamo.totalAPagar - prestamo.monto);
 
-            if (ulPrestamos.children.length === 0) {
-                ulPrestamos.innerHTML = "<li>No hay préstamos terminados</li>";
+                        const li = document.createElement("li");
+                        li.innerHTML = `
+                            <strong>Monto:</strong> ${prestamo.monto} <br>
+                            <strong>Interés:</strong> ${prestamo.interes} <br>
+                            <strong>Plazo:</strong> ${prestamo.plazo} <br>
+                            <strong>Total a pagar:</strong> ${prestamo.totalAPagar} <br>
+                            <strong>Fecha registro:</strong> ${formatoFecha(prestamo.fechaRegistro)} <br>
+                            <strong>Fecha cierre:</strong> ${formatoFecha(prestamo.fechaFinalizacion)}
+                        `;
+                        ulPrestamos.appendChild(li);
+
+                        let ganaciasTxt = document.createElement("p");
+                        ganaciasTxt.innerHTML = `<strong>Ganancias del préstamo:</strong> ${prestamo.totalAPagar - prestamo.monto}`;
+                        li.appendChild(ganaciasTxt);
+
+
+                        let btnActivarContrata = document.createElement("button");
+                        btnActivarContrata.textContent = "Activar Contrata";
+                        li.appendChild(btnActivarContrata);
+                        btnActivarContrata.onclick = function() {
+                            prestamo.estado = false; // Cambiar estado a activo
+                            fetch(`/prestamos/${prestamo.id}/activar`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(prestamo)
+                            }).then(res => {
+                                if (!res.ok) throw new Error("Error al activar contrata");
+                                alert("Contrata activada exitosamente");
+                                window.location.reload();
+                            }).catch(err => console.error(err));
+                        };
+                    }
+                });
+
+                let totalGananciasTxt = document.createElement("h3");
+                totalGananciasTxt.innerHTML = `<strong>Ganancias totales de préstamos terminados:</strong> ${totalGanancias}`;
+                document.body.insertBefore(totalGananciasTxt, ulPrestamos.nextSibling);
+
+                if (ulPrestamos.children.length === 0) {
+                    ulPrestamos.innerHTML = "<li>No hay préstamos terminados</li>";
+                }
+            }).catch(err => console.error(err));
+
+
+
+        function formatoFecha(fecha) {
+            if (fecha instanceof Date) {
+                const dia = String(fecha.getDate()).padStart(2, '0');
+                const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+                const año = fecha.getFullYear();
+                return `${dia}/${mes}/${año}`;
             }
-        }).catch(err => console.error(err));
 
+            if (typeof fecha === "string" && fecha.includes("-")) {
+                const [año, mes, dia] = fecha.split("-");
+                return `${dia}/${mes}/${año}`;
+            }
 
+            return "Fecha no disponible";
+            }
+    </script>
 
-    function formatoFecha(fecha) {
-        if (fecha instanceof Date) {
-            const dia = String(fecha.getDate()).padStart(2, '0');
-            const mes = String(fecha.getMonth() + 1).padStart(2, '0');
-            const año = fecha.getFullYear();
-            return `${dia}/${mes}/${año}`;
-        }
-
-        if (typeof fecha === "string" && fecha.includes("-")) {
-            const [año, mes, dia] = fecha.split("-");
-            return `${dia}/${mes}/${año}`;
-        }
-
-        return "Fecha no disponible";
-        }
-</script>
-
-</body>
-</html>
+    </body>
+    </html>
