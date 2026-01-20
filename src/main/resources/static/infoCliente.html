@@ -57,18 +57,37 @@
                         <strong>Interés:</strong> ${prestamo.interes} <br>
                         <strong>Plazo:</strong> ${prestamo.plazo} <br>
                         <strong>Total a pagar:</strong> ${prestamo.totalAPagar} <br>
-                        <strong>Fecha registro:</strong> ${prestamo.fechaRegistro} <br>
-                        <strong>Fecha cierre:</strong> ${prestamo.fechaFinalizacion}
+                        <strong>Fecha registro:</strong> ${formatoFecha(prestamo.fechaRegistro)} <br>
+                        <strong>Fecha cierre:</strong> ${formatoFecha(prestamo.fechaFinalizacion)}
                     `;
                     ulPrestamos.appendChild(li);
+
+                    let ganaciasTxt = document.createElement("p");
+                    ganaciasTxt.innerHTML = `<strong>Ganancias del préstamo:</strong> ${prestamo.totalAPagar - prestamo.monto}`;
+                    li.appendChild(ganaciasTxt);
                 }
             });
 
             if (ulPrestamos.children.length === 0) {
                 ulPrestamos.innerHTML = "<li>No hay préstamos terminados</li>";
             }
-        })
-        .catch(err => console.error(err));
+        }).catch(err => console.error(err));
+
+    function formatoFecha(fecha) {
+        if (fecha instanceof Date) {
+            const dia = String(fecha.getDate()).padStart(2, '0');
+            const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+            const año = fecha.getFullYear();
+            return `${dia}/${mes}/${año}`;
+        }
+
+        if (typeof fecha === "string" && fecha.includes("-")) {
+            const [año, mes, dia] = fecha.split("-");
+            return `${dia}/${mes}/${año}`;
+        }
+
+        return "Fecha no disponible";
+        }
 </script>
 
 </body>
