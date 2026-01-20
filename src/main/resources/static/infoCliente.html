@@ -46,10 +46,12 @@
                 console.error("Respuesta inesperada:", prestamos);
                 return;
             }
+            let totalGanancias = 0;
 
             prestamos.forEach(prestamo => {
                 // true = cerrado según tu backend
                 if (prestamo.estado === true) {
+                    totalGanancias += (prestamo.totalAPagar - prestamo.monto);
 
                     const li = document.createElement("li");
                     li.innerHTML = `
@@ -68,10 +70,16 @@
                 }
             });
 
+            let totalGananciasTxt = document.createElement("h3");
+            totalGananciasTxt.innerHTML = `<strong>Ganancias totales de préstamos terminados:</strong> ${totalGanancias}`;
+            document.body.insertBefore(totalGananciasTxt, ulPrestamos.nextSibling);
+
             if (ulPrestamos.children.length === 0) {
                 ulPrestamos.innerHTML = "<li>No hay préstamos terminados</li>";
             }
         }).catch(err => console.error(err));
+
+
 
     function formatoFecha(fecha) {
         if (fecha instanceof Date) {
