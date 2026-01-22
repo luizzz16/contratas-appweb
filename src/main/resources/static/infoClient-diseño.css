@@ -1,4 +1,43 @@
 /* ===============================
+   CONFIGURACIÓN GENERAL
+================================ */
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 16px;
+    background-color: #ffffff;
+    color: #000;
+}
+
+/* ===============================
+   JERARQUÍA DE TÍTULOS
+================================ */
+h1, h2, h3 {
+    text-align: center;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 22px;
+    margin-top: 40px;
+    margin-bottom: 24px;
+}
+
+h3 {
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+/* ===============================
    INFO CLIENTE
 ================================ */
 .cliente-card {
@@ -9,8 +48,18 @@
     background-color: #f8fafc;
     border: 1px solid #e5e7eb;
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
-    font-size: 16px;
+    font-size: 17px;
     line-height: 1.6;
+    text-align: center;
+}
+
+/* ===============================
+   LISTA DE PRÉSTAMOS
+================================ */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 /* ===============================
@@ -22,12 +71,16 @@
     border-radius: 18px;
     border: 1px solid #e6e6e6;
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
-    margin-bottom: 26px;
+    margin: 0 auto 26px;
+    max-width: 650px;
+    text-align: center;
     position: relative;
 }
 
 /* Separación visual entre datos */
 .prestamo-card strong {
+    display: inline-block;
+    margin-top: 6px;
     color: #1f2937;
 }
 
@@ -35,13 +88,15 @@
    GANANCIAS
 ================================ */
 .ganancia-prestamo {
-    margin-top: 14px;
+    margin: 18px auto 0;
     padding: 10px 14px;
     border-radius: 12px;
     background-color: rgba(204, 213, 174, 0.35);
     border: 1px solid #a3b18a;
     font-weight: bold;
     color: #2f4f2f;
+    max-width: 90%;
+    text-align: center;
 }
 
 /* Ganancia total */
@@ -53,10 +108,20 @@ h3 strong {
    BOTÓN ACTIVAR CONTRATA
 ================================ */
 .btn-activar {
+    display: block;
+    margin: 18px auto 0;
+    padding: 12px 18px;
+    border-radius: 14px;
+    cursor: pointer;
+
     background-color: rgba(162, 210, 255, 0.55);
     color: #1d4ed8;
     border: 2px solid #6fa8dc;
     font-weight: bold;
+
+    transition: background-color 0.25s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
 }
 
 .btn-activar:hover {
@@ -72,12 +137,18 @@ ul li:only-child {
     text-align: center;
     font-weight: bold;
     background-color: #f1f5f9;
+    padding: 18px;
+    border-radius: 14px;
 }
 
 /* ===============================
    RESPONSIVE – CELULARES
 ================================ */
 @media (max-width: 600px) {
+
+    body {
+        padding: 12px;
+    }
 
     .cliente-card {
         font-size: 15px;
