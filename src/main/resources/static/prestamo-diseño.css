@@ -287,4 +287,48 @@ small {
     border-radius: 8px;
 }
 
+/* ===============================
+   BOTÓN VOLVER
+================================ */
+.btn-volver {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+
+    width: 44px;
+    height: 44px;
+
+    border-radius: 50%;
+    border: 2px solid #6fa8dc;
+    background-color: rgba(162, 210, 255, 0.65);
+    color: #1d4ed8;
+
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+
+    transition: background-color 0.25s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+    z-index: 1000;
+}
+
+.btn-volver:hover {
+    background-color: rgba(162, 210, 255, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+}
+
+.btn-volver:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+}
+
+
 
