@@ -39,7 +39,7 @@
         <button type="submit" id="btnRegistrarPrestamo">Registrar Préstamo</button>
     </form>
 
-
+    
     <h2>Clientes y sus Préstamos</h2>
     <ul id="listaClientes"></ul>
 
@@ -77,6 +77,8 @@
     fetch(`/clientes/${clienteId}`)
         .then(res => res.json())
         .then(cliente => {
+            const lista = document.getElementById("listaClientes");
+            lista.innerHTML = "";
 
             const liCliente = document.createElement("li");
             liCliente.innerHTML = `<strong>${cliente.nombre}</strong>`;
