@@ -157,28 +157,40 @@ h2::after {
                 transform 0.2s ease,
                 box-shadow 0.2s ease;
 }
-
 /* Crear préstamo (AZUL) */
-#listaClientes button:first-of-type {
+#listaClientes .btn-prestamo {
     background-color: rgba(162, 210, 255, 0.45);
     color: #1d4ed8;
     border: 2px solid #6fa8dc;
 }
 
-#listaClientes button:first-of-type:hover {
+#listaClientes .btn-prestamo:hover {
     background-color: rgba(162, 210, 255, 0.75);
     transform: translateY(-2px);
     box-shadow: 0 5px 12px rgba(0,0,0,0.12);
 }
 
+/* Ver info cliente (GRIS) */
+#listaClientes .btn-info {
+    background-color: rgba(200, 200, 200, 0.45);
+    color: #333;
+    border: 2px solid #b0b0b0;
+}
+
+#listaClientes .btn-info:hover {
+    background-color: rgba(200, 200, 200, 0.75);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+}
+
 /* Eliminar cliente (ROJO) */
-#listaClientes button:last-of-type {
+#listaClientes .btn-eliminar {
     background-color: rgba(255, 175, 204, 0.45);
     color: #9d174d;
     border: 2px solid #f28482;
 }
 
-#listaClientes button:last-of-type:hover {
+#listaClientes .btn-eliminar:hover {
     background-color: rgba(255, 175, 204, 0.75);
     transform: translateY(-2px);
     box-shadow: 0 5px 12px rgba(0,0,0,0.12);
