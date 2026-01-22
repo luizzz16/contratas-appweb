@@ -261,7 +261,7 @@ small {
         padding: 3px 6px;
         font-size: 0.75rem;
         margin-left: 6px;
-        
+
     }
 }
 
@@ -315,6 +315,7 @@ small {
 
     cursor: pointer;
     z-index: 1000;
+    position: static;
 
     padding: 0;
     text-align: center;
