@@ -261,6 +261,7 @@ small {
         padding: 3px 6px;
         font-size: 0.75rem;
         margin-left: 6px;
+        
     }
 }
 
@@ -293,33 +294,50 @@ small {
 /* ===============================
    BOTÓN VOLVER – SOLO FLECHA
 ================================ */
+/* ===============================
+   BOTÓN VOLVER – RESPONSIVE
+================================ */
 .btn-volver {
     position: fixed;
-    top: 16px;
-    left: 16px;
+    top: 14px;
+    left: 14px;
 
     background: transparent;
     border: none;
-    padding: 0;
+
+    width: 44px;          /* área táctil */
+    height: 44px;
 
     color: #000;
-    font-size: 34px;       /* más ancha visualmente */
+    font-size: 34px;
     font-weight: bold;
-    line-height: 1;
+    line-height: 44px;    /* centra verticalmente */
 
     cursor: pointer;
     z-index: 1000;
 
+    padding: 0;
+    text-align: center;
+
     transition: transform 0.2s ease;
 }
 
-.btn-volver:hover {
-    transform: translateX(-4px); /* movimiento natural de volver */
+/* Solo aplica hover en pantallas con mouse */
+@media (hover: hover) {
+    .btn-volver:hover {
+        transform: translateX(-4px);
+    }
 }
 
 .btn-volver:active {
     transform: translateX(-2px);
 }
+
+/* Evita resaltados raros en móvil */
+.btn-volver:focus {
+    outline: none;
+}
+
 
 
 
