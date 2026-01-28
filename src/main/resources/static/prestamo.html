@@ -115,15 +115,21 @@
         inputPago.type = "number";
         inputPago.placeholder = "Monto del pago";
 
+        const fechaPago = document.createElement("input");
+        fechaPago.type = "date";
+        fechaPago.placeholder = "Fecha del pago";
+
         const botonPago = document.createElement("button");
         botonPago.textContent = "Registrar pago";
 
         liPrestamo.appendChild(document.createElement("br"));
         liPrestamo.appendChild(inputPago);
+        liPrestamo.appendChild(fechaPago);
         liPrestamo.appendChild(botonPago);
 
         botonPago.onclick = function () {
             const montoPago = parseFloat(inputPago.value);
+            const fechaPagoValue = fechaPago.value;
 
             if (isNaN(montoPago) || montoPago <= 0) {
                 alert("Ingrese un monto válido");
@@ -136,7 +142,8 @@
             }
 
             const pagoData = {
-                monto: montoPago
+                monto: montoPago,
+                fechaPago: fechaPagoValue
             };
 
             fetch(`/pagos/prestamo/${prestamo.id}`, {
@@ -196,7 +203,7 @@
 
                     const liPago = document.createElement("li");
                     liPago.textContent =
-                        `Monto del Pago: ${pago.monto}, Fecha: ${formatoFecha(new Date())}`;
+                        `Monto del Pago: ${pago.monto}, Fecha: ${formatoFecha(pago.fechaPago)}`;
                     ulPagos.appendChild(liPago);
 
                     // boton para eliminar pago

@@ -24,9 +24,10 @@ public class PagoServ {
         this.prestamoRepo = prestamoRepo;
     }
 
-    public Pago guardarPago(@PathVariable Long prestamoId, @RequestBody Pago pago) {
+    public Pago guardarPago(@PathVariable Long prestamoId, @RequestBody Pago pago, @RequestBody java.sql.Date fechaPago) {
         Prestamo prestamo = prestamoRepo.findById(prestamoId).orElseThrow(() -> new RuntimeException("Préstamo no encontrado"));
         pago.setPrestamo(prestamo);
+        pago.setFechaPago(fechaPago);
         return pagoRepo.save(pago);
     }
 
@@ -37,7 +38,7 @@ public class PagoServ {
 
 
     @Transactional
-    public Pago registrarPago(Long prestamoId, double monto) {
+    public Pago registrarPago(Long prestamoId, double monto, java.sql.Date fechaPago) {
 
         Prestamo prestamo = prestamoRepo.findById(prestamoId).orElseThrow(() -> new RuntimeException("Préstamo no encontrado"));
 
@@ -51,8 +52,9 @@ public class PagoServ {
 
         Pago pago = new Pago();
         pago.setMonto(monto);
-        pago.setFechaPago(new java.sql.Date(System.currentTimeMillis()));
+        pago.setFechaPago(fechaPago != null ? fechaPago : new java.sql.Date(System.currentTimeMillis()));
         pago.setPrestamo(prestamo);
+        
 
         pagoRepo.save(pago);
 

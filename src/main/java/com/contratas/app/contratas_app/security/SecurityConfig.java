@@ -20,10 +20,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-            // ❌ CSRF off (ok para APIs / HTML simple)
+            // CSRF off (ok para APIs / HTML simple)
             .csrf(csrf -> csrf.disable())
 
-            // 🔓 RUTAS PÚBLICAS
+            // RUTAS PÚBLICAS
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
                     "/",                 // index.html
@@ -36,12 +36,12 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
 
-            // 🔐 LOGIN CON GOOGLE
+            // LOGIN CON GOOGLE
             .oauth2Login(oauth -> oauth
                 .successHandler(successHandler) // ← GUARDA EN BD Y REDIRIGE
             )
 
-            // 🚪 LOGOUT
+            // LOGOUT
             .logout(logout -> logout
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)

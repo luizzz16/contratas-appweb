@@ -28,9 +28,9 @@ public class PagoController {
 
 
     @PostMapping("/prestamo/{prestamoId}")
-    public Pago guardarPago(@PathVariable Long prestamoId, @RequestBody Pago pago) {
+    public Pago guardarPago(@PathVariable Long prestamoId, @RequestBody Pago pago ) {
 
-        return pagoServ.registrarPago(prestamoId, pago.getMonto());
+        return pagoServ.registrarPago(prestamoId, pago.getMonto(), pago.getFechaPago());
     }
 
 
