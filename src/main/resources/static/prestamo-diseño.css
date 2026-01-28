@@ -299,7 +299,7 @@ small {
 ================================ */
 .btn-volver {
     position: fixed;
-    top: 8px;
+    top: 2px;
     left: 14px;
 
     background: transparent;
@@ -315,7 +315,6 @@ small {
 
     cursor: pointer;
     z-index: 1000;
-    position: static;
 
     padding: 0;
     text-align: center;

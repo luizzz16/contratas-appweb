@@ -46,7 +46,7 @@
                     lista.innerHTML = ""; // Limpia para no duplicar
                     clientes.forEach(cliente => {
                         const li = document.createElement("li");
-                        li.textContent = `ID: ${cliente.id}, Nombre: ${cliente.nombre}, Tel: ${cliente.telefono}, Dirección: ${cliente.direccion}`;
+                        li.textContent = `Nombre: ${cliente.nombre}, Tel: ${cliente.telefono}, Dirección: ${cliente.direccion}`;
 
                         const btnPrestamo = document.createElement("button");
                         btnPrestamo.classList.add("btn-prestamo");
@@ -108,11 +108,11 @@
         }
 
         // 2. Nombre: solo letras y espacios
-        const nombreRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
-        if (!nombreRegex.test(nombreCliente)) {
-            alert("El nombre no debe contener números ni caracteres especiales.");
-            return;
-        }
+        // const nombreRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+        // if (!nombreRegex.test(nombreCliente)) {
+        //     alert("El nombre no debe contener números ni caracteres especiales.");
+        //     return;
+        // }
 
         // 3. Teléfono: solo números y 10 dígitos
         const telefonoRegex = /^\d{10}$/;
@@ -140,7 +140,7 @@
             })
             .then(response => response.json())
             .then(data => {
-                alert("Cliente registrado con ID: " + data.id);
+                alert("Cliente registrado con nombre: " + data.nombre);
                 document.getElementById("registroCliente").reset(); // Limpia los cuadritos de texto
                 cargarClientes(); // <--- Aquí la llamamos para actualizar la lista sin refrescar
             })
