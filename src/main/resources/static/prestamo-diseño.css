@@ -149,6 +149,10 @@ button {
         box-shadow 0.2s ease;
 }
 
+#fechaPago {
+    margin-top: 4px;
+}
+
 /* ===== CERRAR PRÉSTAMO (VERDE) ===== */
 button.cerrar {
     background-color: rgba(204, 213, 174, 0.55);

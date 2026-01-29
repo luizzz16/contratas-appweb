@@ -170,3 +170,28 @@ ul li:only-child {
         margin-top: 14px;
     }
 }
+
+.btn-volver {
+    position: fixed;
+    top: 2px;
+    left: 14px;
+
+    background: transparent;
+    border: none;
+
+    width: 44px;          /* área táctil */
+    height: 44px;
+
+    color: #000;
+    font-size: 34px;
+    font-weight: bold;
+    line-height: 44px;    /* centra verticalmente */
+
+    cursor: pointer;
+    z-index: 1000;
+
+    padding: 0;
+    text-align: center;
+
+    transition: transform 0.2s ease;
+}
