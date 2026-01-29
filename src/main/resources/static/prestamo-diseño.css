@@ -309,22 +309,24 @@ small {
     background: transparent;
     border: none;
 
-    width: 44px;          /* área táctil */
+    width: 44px;
     height: 44px;
 
     color: #000;
     font-size: 34px;
     font-weight: bold;
-    line-height: 44px;    /* centra verticalmente */
+    line-height: 44px;
 
     cursor: pointer;
-    z-index: 1000;
+    z-index: 9999;
 
     padding: 0;
+    margin: 0;          /* ✅ CLAVE */
     text-align: center;
 
     transition: transform 0.2s ease;
 }
+
 
 /* Solo aplica hover en pantallas con mouse */
 @media (hover: hover) {
