@@ -75,41 +75,90 @@
     }
 
     // cargar cliente con sus prestamos
+//     function cargarClienteConPrestamos() {
+//     fetch(`/clientes/${clienteId}`)
+//         .then(res => res.json())
+//         .then(cliente => {
+//             const lista = document.getElementById("listaClientes");
+//             lista.innerHTML = "";
+
+//             const liCliente = document.createElement("li");
+//             liCliente.innerHTML = `<strong>${cliente.nombre}</strong>`;
+
+//             const ulPrestamos = document.createElement("ul");
+
+//             const prestamosActivos = cliente.prestamos ? cliente.prestamos.filter(prestamo => !prestamo.estado): [];
+
+//             if (prestamosActivos.length > 0) {
+//                 prestamosActivos.forEach(prestamo => {
+
+//                     const liPrestamo = document.createElement("li");
+
+//                     liPrestamo.textContent =
+//                         `Monto: ${prestamo.monto}, Total a Pagar: ${prestamo.totalAPagar}, Interés: ${prestamo.interes}, Plazo: ${prestamo.plazo},  Fecha de Registro: ${formatoFecha(prestamo.fechaRegistro)}`;
+
+//                     agregarFormularioPago(prestamo, liPrestamo);
+//                     mostrarPagos(prestamo, liPrestamo);
+
+//                     ulPrestamos.appendChild(liPrestamo);
+//                 });
+//             } else {
+//                 ulPrestamos.innerHTML = "<li>Sin préstamos</li>";
+//             }
+//             liCliente.appendChild(ulPrestamos);
+//             lista.appendChild(liCliente);
+//         })
+//         .catch(err => console.error("Error cargando cliente:", err));
+// }
+
     function cargarClienteConPrestamos() {
     fetch(`/clientes/${clienteId}`)
         .then(res => res.json())
         .then(cliente => {
-            const lista = document.getElementById("listaClientes");
-            lista.innerHTML = "";
 
-            const liCliente = document.createElement("li");
-            liCliente.innerHTML = `<strong>${cliente.nombre}</strong>`;
+            const contenedor = document.getElementById("clienteDetalle");
+            contenedor.innerHTML = "";
 
+            // Nombre del cliente
+            const nombreCliente = document.createElement("h2");
+            nombreCliente.textContent = cliente.nombre;
+            contenedor.appendChild(nombreCliente);
+
+            // Lista de préstamos
             const ulPrestamos = document.createElement("ul");
 
-            const prestamosActivos = cliente.prestamos ? cliente.prestamos.filter(prestamo => !prestamo.estado): [];
+            const prestamosActivos = cliente.prestamos
+                ? cliente.prestamos.filter(prestamo => !prestamo.estado)
+                : [];
 
             if (prestamosActivos.length > 0) {
+
                 prestamosActivos.forEach(prestamo => {
 
                     const liPrestamo = document.createElement("li");
 
                     liPrestamo.textContent =
-                        `Monto: ${prestamo.monto}, Total a Pagar: ${prestamo.totalAPagar}, Interés: ${prestamo.interes}, Plazo: ${prestamo.plazo},  Fecha de Registro: ${formatoFecha(prestamo.fechaRegistro)}`;
+                        `Monto: ${prestamo.monto}, Total a Pagar: ${prestamo.totalAPagar}, 
+                        Interés: ${prestamo.interes}, Plazo: ${prestamo.plazo}, 
+                        Fecha de Registro: ${formatoFecha(prestamo.fechaRegistro)}`;
 
                     agregarFormularioPago(prestamo, liPrestamo);
                     mostrarPagos(prestamo, liPrestamo);
 
                     ulPrestamos.appendChild(liPrestamo);
                 });
+
             } else {
-                ulPrestamos.innerHTML = "<li>Sin préstamos</li>";
+                const sinPrestamos = document.createElement("p");
+                sinPrestamos.textContent = "Este cliente no tiene préstamos activos.";
+                contenedor.appendChild(sinPrestamos);
             }
-            liCliente.appendChild(ulPrestamos);
-            lista.appendChild(liCliente);
+
+            contenedor.appendChild(ulPrestamos);
         })
         .catch(err => console.error("Error cargando cliente:", err));
 }
+
 
     // formulario para agregar pago a un prestamo
     function agregarFormularioPago(prestamo, liPrestamo) {
